@@ -10,6 +10,12 @@ const envelopeOffsetY = 72;
 function playPause() {
     let player = document.getElementById('music');
     let play_btn = $('#music_btn');
+    if (window.toggleOriginalBirthdayTheme && (!player || !player.getAttribute('src'))) {
+        window.toggleOriginalBirthdayTheme();
+        play_btn.attr('class', window.isOriginalBirthdayThemeMuted && window.isOriginalBirthdayThemeMuted() ? 'mute' : 'play');
+        return;
+    }
+
     if (player.paused) {
         player.play();
         play_btn.attr('class', 'play');

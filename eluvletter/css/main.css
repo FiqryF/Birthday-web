@@ -176,7 +176,6 @@ a {
 
 .confetti-piece {
     position: absolute;
-    top: -18px;
     width: var(--w, 8px);
     height: var(--h, 14px);
     border-radius: var(--r, 2px);
