@@ -73,6 +73,18 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
     .font-display {
       font-family: Georgia, "Times New Roman", serif;
     }
@@ -202,12 +214,6 @@
         url("birthday-photo-placeholder.png") center 28% / cover;
     }
 
-    .mystic-reference {
-      background:
-        linear-gradient(180deg, rgba(38, 36, 35, .18), rgba(38, 36, 35, .74)),
-        url("mystic-sisters-reference.jpeg") center / cover;
-    }
-
     .section-label {
       font-size: .68rem;
       font-weight: 900;
@@ -215,10 +221,233 @@
       text-transform: uppercase;
     }
 
-    .memory-card {
+    .memory-feature {
+      position: relative;
+      overflow: hidden;
+      min-height: 560px;
+      background: var(--violet);
+      color: var(--pale);
+      box-shadow: 0 26px 70px rgba(64, 43, 71, .18);
+    }
+
+    .memory-photo {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 44%;
+    }
+
+    .memory-feature::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(38, 36, 35, .78), rgba(64, 43, 71, .22) 52%, rgba(255, 116, 199, .08)),
+        linear-gradient(0deg, rgba(38, 36, 35, .72), transparent 44%);
+      pointer-events: none;
+    }
+
+    .memory-caption {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      min-height: 560px;
+      align-content: end;
+      padding: clamp(1.5rem, 4vw, 3rem);
+    }
+
+    .memory-tile {
+      overflow: hidden;
       border: 1px solid rgba(64, 43, 71, .18);
-      background: rgba(255, 255, 255, .42);
+      background: rgba(255, 255, 255, .5);
       box-shadow: 0 18px 38px rgba(64, 43, 71, .1);
+    }
+
+    .memory-tile img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .memory-tile-split img {
+      height: 100%;
+      min-height: 20rem;
+    }
+
+    .memory-note {
+      padding: 1.35rem;
+    }
+
+    .memory-polaroid {
+      background: #fff8ec;
+      padding: .55rem .55rem .82rem;
+      box-shadow: 0 22px 42px rgba(64, 43, 71, .18);
+      transform: rotate(var(--r, -2deg));
+    }
+
+    .memory-polaroid img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      filter: saturate(1.04);
+    }
+
+    .memory-polaroid figcaption {
+      margin-top: .48rem;
+      color: rgba(64, 43, 71, .72);
+      font-size: .58rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .wish-shell {
+      overflow: hidden;
+      background: var(--violet);
+      color: var(--pale);
+      box-shadow: 0 26px 76px rgba(38, 36, 35, .34);
+    }
+
+    .wish-paper {
+      position: relative;
+      min-height: 100%;
+      background:
+        repeating-linear-gradient(0deg, rgba(64, 43, 71, .035) 0 1px, transparent 1px 10px),
+        linear-gradient(135deg, #fff8ec, #eadbc3);
+      color: var(--violet);
+    }
+
+    .wish-input {
+      width: 100%;
+      min-height: 150px;
+      resize: none;
+      border: 1px solid rgba(64, 43, 71, .2);
+      background: rgba(255, 255, 255, .54);
+      color: var(--violet);
+      padding: 1rem;
+      font: 600 1rem/1.7 Inter, ui-sans-serif, system-ui, sans-serif;
+      outline: none;
+      transition: border-color 220ms ease, box-shadow 220ms ease, background 220ms ease;
+    }
+
+    .wish-input:focus {
+      border-color: rgba(255, 116, 199, .72);
+      background: rgba(255, 255, 255, .72);
+      box-shadow: 0 0 0 4px rgba(255, 116, 199, .15);
+    }
+
+    .wish-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 0;
+      background: var(--chrome);
+      color: var(--violet);
+      padding: .9rem 1.1rem;
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 14px 30px rgba(255, 116, 199, .28);
+      transition: transform 220ms ease, filter 220ms ease;
+    }
+
+    .wish-button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .wish-list {
+      display: grid;
+      gap: .75rem;
+      max-height: 255px;
+      overflow: auto;
+      padding-right: .25rem;
+    }
+
+    .wish-card {
+      border: 1px solid rgba(64, 43, 71, .14);
+      background: rgba(255, 255, 255, .5);
+      padding: .9rem;
+      color: rgba(64, 43, 71, .78);
+      font-size: .88rem;
+      line-height: 1.6;
+    }
+
+    .wish-card.new {
+      animation: wishArrive 650ms cubic-bezier(.18, .84, .2, 1);
+    }
+
+    .wish-fly {
+      position: fixed;
+      z-index: 90;
+      width: 190px;
+      min-height: 90px;
+      border: 1px solid rgba(64, 43, 71, .18);
+      background: #fff8ec;
+      color: var(--violet);
+      padding: .85rem;
+      box-shadow: 0 18px 46px rgba(64, 43, 71, .26);
+      pointer-events: none;
+      animation: wishFly 900ms cubic-bezier(.2, .86, .2, 1) forwards;
+    }
+
+    .wish-spark {
+      position: fixed;
+      z-index: 89;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--chrome);
+      box-shadow: 0 0 18px rgba(255, 116, 199, .75);
+      pointer-events: none;
+      animation: wishSpark 760ms ease-out forwards;
+    }
+
+    @keyframes wishArrive {
+      from {
+        opacity: 0;
+        transform: translateY(16px) rotate(-1deg);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
+    }
+
+    @keyframes wishFly {
+      0% {
+        opacity: 0;
+        transform: translate3d(-50%, 0, 0) scale(.86) rotate(-3deg);
+      }
+
+      18% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate3d(-50%, -145px, 0) scale(1.05) rotate(4deg);
+      }
+    }
+
+    @keyframes wishSpark {
+      from {
+        opacity: .9;
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+
+      to {
+        opacity: 0;
+        transform: translate3d(var(--x), var(--y), 0) scale(.25);
+      }
     }
 
     .reveal {
@@ -281,6 +510,11 @@
       .ornate-box::after {
         width: 46px;
         height: 46px;
+      }
+
+      .memory-feature,
+      .memory-caption {
+        min-height: 460px;
       }
     }
   </style>
@@ -353,68 +587,115 @@
         </article>
       </section>
 
-      <section id="memories" class="reveal mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:px-12">
-        <div class="mb-8 flex flex-wrap items-end justify-between gap-5">
+      <section id="memories" class="reveal mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:px-12">
+        <div class="mb-9 grid gap-6 lg:grid-cols-[1fr_.72fr] lg:items-end">
           <div>
             <p class="section-label text-lilac">memory index</p>
-            <h2 class="font-display mt-3 text-4xl leading-none text-violet sm:text-6xl">Things worth keeping</h2>
+            <h2 class="font-display mt-3 max-w-3xl text-5xl leading-none text-violet sm:text-6xl lg:text-7xl">A little archive of the night</h2>
           </div>
-          <p class="max-w-sm text-sm leading-6 text-violet/68">Bagian ini bisa diganti nanti dengan cerita personal, foto tambahan, atau inside jokes yang cuma kalian berdua yang paham.</p>
-        </div>
-
-        <div class="grid gap-4 md:grid-cols-3">
-          <article class="memory-card min-h-72 p-6">
-            <p class="section-label text-denim">01 / smile</p>
-            <h3 class="font-display mt-16 text-3xl leading-none text-violet">The small bright thing</h3>
-            <p class="mt-5 text-sm leading-6 text-violet/68">Untuk senyum kecil yang sering datang tanpa aba-aba, lalu membuat hari terasa lebih mudah.</p>
-          </article>
-          <article class="memory-card min-h-72 bg-violet p-6 text-pale">
-            <p class="section-label text-chrome">02 / dream</p>
-            <h3 class="font-display mt-16 text-3xl leading-none text-white">The brave next chapter</h3>
-            <p class="mt-5 text-sm leading-6 text-pale/72">Untuk mimpi yang sedang tumbuh pelan-pelan. Semoga jalannya terbuka dengan cara yang manis.</p>
-          </article>
-          <article class="memory-card min-h-72 p-6">
-            <p class="section-label text-denim">03 / glow</p>
-            <h3 class="font-display mt-16 text-3xl leading-none text-violet">The glow you carry</h3>
-            <p class="mt-5 text-sm leading-6 text-violet/68">Untuk cahaya yang tidak harus keras supaya terlihat. Kamu punya cara sendiri untuk bersinar.</p>
-          </article>
-        </div>
-      </section>
-
-      <section class="reveal mx-auto grid max-w-6xl gap-8 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_1fr] lg:px-12">
-        <div class="mystic-reference min-h-[560px] border border-violet/18 shadow-[0_24px_70px_rgba(64,43,71,.2)]"></div>
-        <div class="grid content-center bg-shadow p-7 text-pale sm:p-10">
-          <p class="section-label text-chrome">visual spell</p>
-          <h2 class="display-title mt-5 text-[4rem] text-white sm:text-[6.2rem]">
-            Mystic<br /><span class="chrome-text italic">Birthday</span>
-          </h2>
-          <p class="mt-7 max-w-lg text-sm leading-7 text-pale/72">
-            Ornamen dari referensi lama dipertahankan sebagai rasa utama: klasik, fortune-card, dan sedikit royal. Bedanya, desain baru dibuat lebih lapang, lebih fokus pada foto, dan lebih terasa seperti satu perjalanan.
+          <p class="max-w-md text-sm leading-7 text-violet/68 lg:justify-self-end">
+            Potongan suasana kecil yang bisa jadi tempat menyimpan cerita: bunga, lilin, pita biru, confetti pink, dan cahaya yang terasa seperti ulang tahun.
           </p>
-          <div class="mt-8 grid grid-cols-3 gap-3 text-center text-[10px] font-black uppercase tracking-[.16em]">
-            <span class="bg-pale px-3 py-4 text-violet">pale blue</span>
-            <span class="bg-lilac px-3 py-4 text-white">lilac</span>
-            <span class="bg-chrome px-3 py-4 text-violet">chrome</span>
+        </div>
+
+        <div class="grid items-stretch gap-5 lg:grid-cols-[1.12fr_.88fr]">
+          <article class="memory-feature">
+            <img class="memory-photo" src="assets/memories/memory-tabletop.png" alt="Birthday bouquet, candlelight, ribbon, and sealed note on a violet celebration table" />
+            <div class="memory-caption">
+              <p class="section-label text-chrome">01 / first frame</p>
+              <h3 class="font-display mt-4 max-w-xl text-5xl leading-none text-white sm:text-7xl">The room kept glowing</h3>
+              <p class="mt-5 max-w-lg text-sm leading-7 text-pale/78">
+                Untuk suasana yang pelan-pelan jadi kenangan: bunga di meja, lilin kecil, dan satu surat yang rasanya cuma punya kamu.
+              </p>
+            </div>
+          </article>
+
+          <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-1">
+            <article class="memory-tile">
+              <img src="assets/memories/memory-cake.png" alt="Close up birthday cake with chrome pink candle and pale blue ribbon" />
+              <div class="memory-note">
+                <p class="section-label text-denim">02 / candle</p>
+                <h3 class="font-display mt-3 text-3xl leading-none text-violet">A wish in soft light</h3>
+                <p class="mt-4 text-sm leading-6 text-violet/68">Satu nyala kecil untuk semua hal baik yang semoga datang tanpa harus kamu kejar terlalu jauh.</p>
+              </div>
+            </article>
+
+            <article class="memory-tile bg-violet text-pale">
+              <img src="assets/memories/memory-balloons.png" alt="Pale blue and chrome pink birthday balloons with candles in a violet room" />
+              <div class="memory-note">
+                <p class="section-label text-chrome">03 / party corner</p>
+                <h3 class="font-display mt-3 text-3xl leading-none text-white">The quiet celebration</h3>
+                <p class="mt-4 text-sm leading-6 text-pale/72">Tidak harus ramai untuk terasa spesial. Kadang cukup cahaya yang pas dan hari yang tahu siapa pusatnya.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="mt-5 grid gap-5 md:grid-cols-[.95fr_1.05fr]">
+          <article class="memory-tile memory-tile-split grid overflow-hidden md:grid-cols-[.9fr_1fr]">
+            <img src="assets/memories/memory-keepsakes.png" alt="Blank photo cards, ribbons, flowers, and fairy lights arranged on violet velvet" />
+            <div class="memory-note grid content-center">
+              <p class="section-label text-lilac">04 / keepsakes</p>
+              <h3 class="font-display mt-3 text-4xl leading-none text-violet">Space for the real photos</h3>
+              <p class="mt-5 text-sm leading-7 text-violet/68">
+                Frame kosong ini sengaja terasa seperti arsip. Nanti bisa diganti foto kalian, chat lucu, atau momen kecil yang cuma kalian yang paham.
+              </p>
+            </div>
+          </article>
+
+          <div class="grid grid-cols-3 gap-4 bg-shadow p-4 text-pale sm:p-5">
+            <figure class="memory-polaroid" style="--r:-3deg;">
+              <img src="assets/memories/memory-cake.png" alt="Birthday cake detail memory" />
+              <figcaption>Candle</figcaption>
+            </figure>
+            <figure class="memory-polaroid self-end" style="--r:2deg;">
+              <img src="assets/memories/memory-tabletop.png" alt="Birthday bouquet tabletop memory" />
+              <figcaption>Letter</figcaption>
+            </figure>
+            <figure class="memory-polaroid" style="--r:-1deg;">
+              <img src="assets/memories/memory-balloons.png" alt="Birthday balloons memory" />
+              <figcaption>Party</figcaption>
+            </figure>
           </div>
         </div>
       </section>
 
       <section id="finale" class="reveal px-5 pb-14 pt-8 sm:px-8 lg:px-12">
-        <div class="mx-auto max-w-6xl overflow-hidden bg-violet text-pale shadow-[0_26px_76px_rgba(38,36,35,.34)]">
-          <div class="grid lg:grid-cols-[1.1fr_.9fr]">
+        <div class="wish-shell mx-auto max-w-6xl">
+          <div class="grid lg:grid-cols-[.92fr_1.08fr]">
             <div class="p-8 sm:p-12">
-              <p class="section-label text-chrome">final note</p>
-              <h2 class="font-display mt-5 text-5xl leading-none text-white sm:text-7xl">Make a wish,<br />then keep going.</h2>
+              <p class="section-label text-chrome">wish sender</p>
+              <h2 class="font-display mt-5 text-5xl leading-none text-white sm:text-7xl">Write one wish,<br />send it softly.</h2>
               <p class="mt-8 max-w-2xl text-sm leading-7 text-pale/76">
-                Selamat ulang tahun. Semoga yang kamu tunggu datang dengan kabar baik, semoga yang kamu mulai tumbuh dengan indah, dan semoga kamu selalu punya tempat pulang yang terasa aman.
+                Tulis satu harapan kecil untuk Aurora. Setelah dikirim, wish akan tersimpan di halaman ini dan muncul sebagai kartu kecil.
               </p>
-            </div>
-            <div class="cream-paper grid min-h-[360px] place-items-center p-8 text-center text-violet">
-              <div>
-                <p class="section-label text-lilac">24 / 06 / 26</p>
-                <p class="font-display mt-5 text-8xl font-black leading-none tracking-normal">22</p>
-                <p class="mt-5 text-xs font-black uppercase tracking-[.24em] text-violet/70">happy birthday, aurora</p>
+              <div class="mt-10 grid grid-cols-3 gap-3 text-center text-[10px] font-black uppercase tracking-[.16em]">
+                <span class="bg-pale px-3 py-4 text-violet">write</span>
+                <span class="bg-lilac px-3 py-4 text-white">send</span>
+                <span class="bg-chrome px-3 py-4 text-violet">glow</span>
               </div>
+            </div>
+
+            <div class="wish-paper p-6 sm:p-8">
+              <form id="wishForm" class="grid gap-4">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p class="section-label text-lilac">24 / 06 / 26</p>
+                    <h3 class="font-display mt-2 text-4xl leading-none text-violet">Collected wishes</h3>
+                  </div>
+                  <span id="wishCount" class="text-[10px] font-black uppercase tracking-[.18em] text-violet/55">0 saved</span>
+                </div>
+
+                <label class="sr-only" for="wishInput">Tulis wish</label>
+                <textarea id="wishInput" class="wish-input" maxlength="180" placeholder="Tulis wish kamu di sini..."></textarea>
+
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                  <span id="wishCounter" class="text-[10px] font-black uppercase tracking-[.18em] text-violet/55">0 / 180</span>
+                  <button class="wish-button" type="submit">send wish</button>
+                </div>
+              </form>
+
+              <div id="wishList" class="wish-list mt-6" aria-live="polite"></div>
             </div>
           </div>
         </div>
@@ -426,7 +707,14 @@
     const intro = document.querySelector("#eluvletterIntro");
     const enterSite = document.querySelector("#enterSite");
     const reveals = document.querySelectorAll(".reveal");
+    const wishForm = document.querySelector("#wishForm");
+    const wishInput = document.querySelector("#wishInput");
+    const wishCounter = document.querySelector("#wishCounter");
+    const wishList = document.querySelector("#wishList");
+    const wishCount = document.querySelector("#wishCount");
+    const wishStorageKey = "birthday-nocturne-wishes";
     observeReveals();
+    initWishSender();
 
     if (window.location.hash) {
       history.replaceState(null, "", window.location.pathname + window.location.search);
@@ -460,6 +748,84 @@
       reveals.forEach((element, index) => {
         element.style.transitionDelay = `${Math.min(index * 70, 210)}ms`;
         observer.observe(element);
+      });
+    }
+
+    function getWishes() {
+      try {
+        return JSON.parse(localStorage.getItem(wishStorageKey)) || [];
+      } catch {
+        return [];
+      }
+    }
+
+    function saveWishes(wishes) {
+      localStorage.setItem(wishStorageKey, JSON.stringify(wishes.slice(0, 8)));
+    }
+
+    function renderWishes(highlightLatest = false) {
+      const wishes = getWishes();
+      wishList.innerHTML = "";
+      wishCount.textContent = `${wishes.length} saved`;
+
+      if (!wishes.length) {
+        wishList.innerHTML = '<div class="wish-card">Belum ada wish. Tulis yang pertama, pelan-pelan saja.</div>';
+        return;
+      }
+
+      wishes.forEach((wish, index) => {
+        const card = document.createElement("article");
+        card.className = `wish-card${highlightLatest && index === 0 ? " new" : ""}`;
+        card.textContent = wish;
+        wishList.appendChild(card);
+      });
+    }
+
+    function createWishAnimation(text) {
+      const rect = wishInput.getBoundingClientRect();
+      const card = document.createElement("div");
+      card.className = "wish-fly";
+      card.textContent = text.length > 70 ? `${text.slice(0, 70)}...` : text;
+      card.style.left = `${rect.left + rect.width / 2}px`;
+      card.style.top = `${rect.top + rect.height / 2}px`;
+      document.body.appendChild(card);
+      setTimeout(() => card.remove(), 930);
+
+      for (let index = 0; index < 10; index += 1) {
+        const spark = document.createElement("span");
+        spark.className = "wish-spark";
+        spark.style.left = `${rect.left + rect.width / 2}px`;
+        spark.style.top = `${rect.top + rect.height / 2}px`;
+        spark.style.setProperty("--x", `${-90 + Math.random() * 180}px`);
+        spark.style.setProperty("--y", `${-110 + Math.random() * 50}px`);
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 790);
+      }
+    }
+
+    function initWishSender() {
+      if (!wishForm || !wishInput) return;
+
+      renderWishes();
+      wishInput.addEventListener("input", () => {
+        wishCounter.textContent = `${wishInput.value.length} / ${wishInput.maxLength}`;
+      });
+
+      wishForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const wish = wishInput.value.trim().replace(/\s+/g, " ");
+        if (!wish) {
+          wishInput.focus();
+          return;
+        }
+
+        const wishes = getWishes();
+        wishes.unshift(wish);
+        saveWishes(wishes);
+        createWishAnimation(wish);
+        wishInput.value = "";
+        wishCounter.textContent = `0 / ${wishInput.maxLength}`;
+        renderWishes(true);
       });
     }
   </script>
