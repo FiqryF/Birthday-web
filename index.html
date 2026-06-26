@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Midnight Chrome Birthday</title>
+  <title>Birthday Nocturne</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -15,21 +15,33 @@
             lilac: "#8350C4",
             violet: "#402B47",
             shadow: "#262423",
-            chrome: "#ff74c7"
+            chrome: "#ff74c7",
+            parchment: "#f6eddf"
           },
           fontFamily: {
             display: ["Georgia", "Times New Roman", "serif"],
             body: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"]
           },
           boxShadow: {
-            glow: "0 0 32px rgba(255, 116, 199, .55), 0 0 86px rgba(131, 80, 196, .42)"
+            glow: "0 0 34px rgba(255, 116, 199, .5), 0 0 90px rgba(131, 80, 196, .42)"
           }
         }
       }
     };
   </script>
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --pale: #C9E0EB;
+      --denim: #7392B5;
+      --lilac: #8350C4;
+      --violet: #402B47;
+      --shadow: #262423;
+      --chrome: #ff74c7;
+      --paper: #f6eddf;
+      --ink-soft: rgba(64, 43, 71, .72);
+    }
 
     * {
       box-sizing: border-box;
@@ -42,496 +54,368 @@
     body {
       margin: 0;
       min-height: 100vh;
-      color: #402B47;
-      background:
-        radial-gradient(circle at 18% 20%, rgba(201, 224, 235, .18), transparent 24rem),
-        radial-gradient(circle at 88% 10%, rgba(255, 116, 199, .22), transparent 20rem),
-        radial-gradient(circle at 75% 68%, rgba(115, 146, 181, .28), transparent 22rem),
-        #402B47;
-      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
       overflow-x: hidden;
+      background:
+        linear-gradient(90deg, rgba(201, 224, 235, .08) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(201, 224, 235, .06) 1px, transparent 1px),
+        linear-gradient(145deg, #262423 0%, #402B47 45%, #1d151f 100%);
+      background-size: 38px 38px, 38px 38px, auto;
+      color: var(--violet);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      opacity: .2;
-      pointer-events: none;
-      background-image:
-        linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: radial-gradient(circle at center, black, transparent 72%);
+    body.locked {
+      overflow: hidden;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .font-display {
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .display-title {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: .82;
     }
 
     .chrome-text {
       color: #ff8fd4;
       text-shadow:
-        0 1px 0 #ffd7ef,
-        0 3px 0 #b92a82,
-        0 0 16px rgba(255, 116, 199, .95),
-        0 0 42px rgba(131, 80, 196, .8);
-      -webkit-text-stroke: 1px rgba(255, 225, 245, .72);
+        0 1px 0 #ffe3f4,
+        0 3px 0 #a92f5f,
+        0 0 18px rgba(255, 116, 199, .82),
+        0 0 46px rgba(131, 80, 196, .68);
+      -webkit-text-stroke: 1px rgba(255, 225, 245, .7);
     }
 
-    .editorial-title {
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 400;
-      letter-spacing: 0;
-      line-height: .78;
-    }
-
-    .glass-object {
-      position: absolute;
-      border-radius: 999px 999px 56% 46%;
-      background:
-        radial-gradient(circle at 28% 24%, rgba(255,255,255,.95), transparent 12%),
-        linear-gradient(120deg, rgba(201,224,235,.8), rgba(255,116,199,.65) 34%, rgba(131,80,196,.7) 58%, rgba(115,146,181,.78));
-      box-shadow:
-        inset 18px -16px 42px rgba(64, 43, 71, .38),
-        inset -14px 12px 28px rgba(255, 255, 255, .42),
-        0 22px 70px rgba(131, 80, 196, .55);
-      filter: saturate(1.25);
-      opacity: .86;
-    }
-
-    .ornate-corner {
-      position: absolute;
-      width: 82px;
-      height: 82px;
-      opacity: .72;
-      color: #c9e0eb;
-      pointer-events: none;
-    }
-
-    .ornate-corner::before,
-    .ornate-corner::after {
-      content: "";
-      position: absolute;
-      border-color: currentColor;
-      opacity: .82;
-    }
-
-    .ornate-corner::before {
-      inset: 0;
-      border-top: 2px solid;
-      border-left: 2px solid;
-      border-top-left-radius: 44px;
-    }
-
-    .ornate-corner::after {
-      left: 10px;
-      top: 10px;
-      width: 56px;
-      height: 56px;
-      border-top: 1px solid;
-      border-left: 1px solid;
-      border-top-left-radius: 36px;
-      box-shadow: -13px -13px 0 -11px currentColor, 20px 4px 0 -18px currentColor;
-    }
-
-    .corner-tr {
-      transform: scaleX(-1);
-    }
-
-    .corner-bl {
-      transform: scaleY(-1);
-    }
-
-    .corner-br {
-      transform: scale(-1);
-    }
-
-    .mystic-monogram {
-      font-family: Georgia, "Times New Roman", serif;
-      font-weight: 700;
-      letter-spacing: -.08em;
-      line-height: .68;
-    }
-
-    .birthday-card {
-      perspective: 1400px;
-      filter: drop-shadow(0 30px 46px rgba(0,0,0,.42));
-    }
-
-    .card-back {
-      background:
-        linear-gradient(90deg, rgba(64,43,71,.18) 50%, transparent 50%) 0 0 / 34px 34px,
-        linear-gradient(rgba(64,43,71,.18) 50%, transparent 50%) 0 0 / 34px 34px,
-        #c9e0eb;
-    }
-
-    .paper-door {
-      background:
-        repeating-linear-gradient(0deg, rgba(64,43,71,.035) 0 1px, transparent 1px 6px),
-        linear-gradient(135deg, #fbf2df, #efe0c7);
-      transform-style: preserve-3d;
-      transition:
-        transform 1100ms cubic-bezier(.18,.84,.2,1),
-        filter 800ms ease,
-        box-shadow 800ms ease;
-      will-change: transform;
-    }
-
-    .paper-door::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(90deg, rgba(255,255,255,.28), transparent 34%, rgba(64,43,71,.08));
-      pointer-events: none;
-    }
-
-    .door-left {
-      transform-origin: left center;
-    }
-
-    .door-right {
-      transform-origin: right center;
-    }
-
-    .opened .door-left {
-      transform: rotateY(-112deg) translateX(-8px);
-      filter: brightness(1.06);
-      box-shadow: 18px 20px 34px rgba(0,0,0,.18);
-    }
-
-    .opened .door-right {
-      transform: rotateY(112deg) translateX(8px);
-      filter: brightness(1.06);
-      box-shadow: -18px 20px 34px rgba(0,0,0,.18);
-    }
-
-    .card-spine {
-      background: linear-gradient(180deg, rgba(64,43,71,.28), rgba(64,43,71,.04), rgba(64,43,71,.28));
-      box-shadow: 0 0 0 1px rgba(64,43,71,.08);
-    }
-
-    .ransom {
-      display: inline-grid;
-      place-items: center;
-      min-width: 28px;
-      height: 36px;
-      padding: 0 6px;
-      border: 1px solid rgba(64,43,71,.18);
-      background: #fff8ea;
-      color: #402B47;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: 25px;
-      font-weight: 800;
-      line-height: 1;
-      transform: rotate(var(--r, -2deg));
-      box-shadow: 0 3px 8px rgba(64,43,71,.16);
-    }
-
-    .ransom.dark {
-      background: #262423;
-      color: #f6eddf;
-    }
-
-    .ransom.red {
-      background: #a92f5f;
-      color: #fff8ea;
-    }
-
-    .ransom.blue {
-      background: #dcebf0;
-      color: #7392B5;
-    }
-
-    .sticker-star {
-      position: absolute;
-      display: grid;
-      place-items: center;
-      color: var(--star, #402B47);
-      font-size: var(--size, 40px);
-      line-height: 1;
-      text-shadow: 0 2px 0 rgba(255,255,255,.45), 0 8px 16px rgba(64,43,71,.16);
-      transform: rotate(var(--rot, 0deg));
-      pointer-events: none;
-    }
-
-    .foil-number {
-      color: #f6f1ee;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(5rem, 22vw, 8.3rem);
-      font-weight: 900;
-      line-height: .72;
-      letter-spacing: -.08em;
-      -webkit-text-stroke: 2px rgba(64,43,71,.55);
-      text-shadow:
-        0 2px 0 #fff,
-        0 5px 0 #a7a2ad,
-        0 0 18px rgba(255,255,255,.75),
-        0 13px 20px rgba(64,43,71,.32);
-    }
-
-    .photo-reveal {
-      opacity: .96;
-      transform: translateY(0) scale(.98);
-      transition: opacity 800ms ease 330ms, transform 900ms cubic-bezier(.2,.9,.18,1) 330ms, filter 900ms ease;
-    }
-
-    .opened .photo-reveal {
-      opacity: 1;
-      transform: translateY(-4px) scale(1.08);
-      filter: drop-shadow(0 0 28px rgba(255,116,199,.62));
-    }
-
-    .open-hint {
-      transition: opacity 420ms ease, transform 420ms ease;
-    }
-
-    .opened .open-hint {
-      opacity: 0;
-      transform: translateY(14px);
-    }
-
-    .intro-sky {
-      background:
-        radial-gradient(circle at 15% 20%, rgba(255,116,199,.18), transparent 18rem),
-        radial-gradient(circle at 86% 78%, rgba(115,146,181,.22), transparent 20rem),
-        radial-gradient(circle at 50% 50%, rgba(131,80,196,.13), transparent 24rem),
-        #262423;
-    }
-
-    .magic-orb {
-      position: absolute;
-      border-radius: 42% 58% 38% 62%;
-      background:
-        radial-gradient(circle at 20% 24%, rgba(255,255,255,.92), transparent 7%),
-        linear-gradient(135deg, rgba(255,116,199,.68), rgba(131,80,196,.78), rgba(115,146,181,.58));
-      filter: blur(.2px) saturate(1.14);
-      opacity: .74;
-      box-shadow: 0 0 60px rgba(131,80,196,.32), inset -28px -24px 50px rgba(38,36,35,.22);
-      animation: orbDrift 9s ease-in-out infinite;
-    }
-
-    .twinkle-dot {
-      position: absolute;
-      width: var(--s, 6px);
-      height: var(--s, 6px);
-      border-radius: 50%;
-      background: var(--c, #C9E0EB);
-      box-shadow: 0 0 16px currentColor;
-      color: var(--c, #C9E0EB);
-      animation: twinkle var(--d, 3.8s) ease-in-out infinite;
-      opacity: .72;
-    }
-
-    .light-trail {
-      position: absolute;
-      width: 180px;
+    .hairline {
+      background: linear-gradient(90deg, transparent, rgba(201, 224, 235, .52), rgba(255, 116, 199, .55), transparent);
       height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(201,224,235,.72), transparent);
-      transform: rotate(var(--r, -18deg));
-      animation: trailMove var(--d, 7s) linear infinite;
-      opacity: .38;
     }
 
-    .floating-glyph {
-      position: absolute;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: var(--fs, 34px);
-      color: rgba(201,224,235,.32);
-      text-shadow: 0 0 18px rgba(255,116,199,.28);
-      animation: glyphFloat var(--d, 8s) ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .envelope-wrap {
-      perspective: 1300px;
-      filter: drop-shadow(0 34px 44px rgba(0,0,0,.38));
-      transform-style: preserve-3d;
-    }
-
-    .paper-envelope {
+    .cream-paper {
       background:
-        repeating-linear-gradient(0deg, rgba(64,43,71,.025) 0 1px, transparent 1px 5px),
-        linear-gradient(135deg, #fbf4e8, #e9deca);
-      transform: rotate(-4deg);
-      transform-style: preserve-3d;
-
+        repeating-linear-gradient(0deg, rgba(64, 43, 71, .035) 0 1px, transparent 1px 8px),
+        linear-gradient(135deg, #fff8ec, #eadbc3);
     }
 
-    .paper-envelope::before {
+    .ornate-box {
+      position: relative;
+      border: 1px solid rgba(64, 43, 71, .28);
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, .58), rgba(201, 224, 235, .26)),
+        var(--paper);
+    }
+
+    .ornate-box::before,
+    .ornate-box::after {
       content: "";
       position: absolute;
-      inset: 18px;
-      border: 2px solid rgba(169,47,95,.78);
-      border-radius: 15px;
-      opacity: .78;
+      width: 72px;
+      height: 72px;
+      pointer-events: none;
+      opacity: .72;
+    }
+
+    .ornate-box::before {
+      left: 18px;
+      top: 18px;
+      border-left: 2px solid currentColor;
+      border-top: 2px solid currentColor;
+      border-top-left-radius: 34px;
+    }
+
+    .ornate-box::after {
+      right: 18px;
+      bottom: 18px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      border-bottom-right-radius: 34px;
+    }
+
+    .intro-scene {
+      background:
+        linear-gradient(120deg, rgba(255, 116, 199, .16), transparent 34%),
+        linear-gradient(245deg, rgba(115, 146, 181, .22), transparent 36%),
+        linear-gradient(160deg, #262423, #402B47 58%, #21171f);
+    }
+
+    .intro-frame {
+      background:
+        linear-gradient(90deg, rgba(201, 224, 235, .12) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(201, 224, 235, .08) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: linear-gradient(90deg, transparent, black 13%, black 87%, transparent);
+    }
+
+    .seal {
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255, 255, 255, .56), transparent 18%),
+        linear-gradient(135deg, var(--chrome), var(--lilac));
+      box-shadow:
+        inset -7px -8px 18px rgba(64, 43, 71, .38),
+        0 12px 34px rgba(255, 116, 199, .36);
+    }
+
+    .letter-button {
+      perspective: 1200px;
+      filter: drop-shadow(0 30px 54px rgba(0, 0, 0, .42));
+      transform-style: preserve-3d;
+      transition: transform 360ms ease, filter 360ms ease;
+    }
+
+    .letter-button:hover {
+      transform: translateY(-3px) rotate(-.35deg);
+      filter: drop-shadow(0 36px 62px rgba(0, 0, 0, .46));
+    }
+
+    .letter {
+      z-index: 2;
+      background:
+        repeating-linear-gradient(0deg, rgba(64, 43, 71, .035) 0 1px, transparent 1px 7px),
+        linear-gradient(135deg, #fff9ee, #e6d7c2);
+      transform-style: preserve-3d;
+      transition: filter 600ms ease;
+      animation: envelopeIdle 5.8s ease-in-out infinite;
+    }
+
+    .letter::before {
+      content: "";
+      position: absolute;
+      inset: 20px;
+      border: 2px solid rgba(169, 47, 95, .72);
       pointer-events: none;
     }
 
-    .paper-envelope::after {
+    .letter::after {
       content: "";
       position: absolute;
       inset: 0;
+      z-index: 1;
       background:
-        radial-gradient(circle at 20% 18%, rgba(255,255,255,.54), transparent 22%),
-        linear-gradient(135deg, rgba(255,255,255,.18), transparent 38%, rgba(64,43,71,.12));
+        linear-gradient(135deg, rgba(255, 255, 255, .28), transparent 38%, rgba(64, 43, 71, .13)),
+        linear-gradient(45deg, transparent 49.6%, rgba(169, 47, 95, .64) 49.8%, rgba(169, 47, 95, .64) 50.2%, transparent 50.4%),
+        linear-gradient(-45deg, transparent 49.6%, rgba(169, 47, 95, .48) 49.8%, rgba(169, 47, 95, .48) 50.2%, transparent 50.4%);
       pointer-events: none;
     }
 
-    .mail-flap {
+    .letter-pocket {
       position: absolute;
-      left: 18px;
-      right: 18px;
-      top: 18px;
-      z-index: 28;
-      height: 55%;
-      transform-origin: top center;
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      inset: 0;
+      z-index: 2;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .letter-pocket::before {
+      content: "";
+      position: absolute;
+      inset: 44% 0 0;
       background:
-        repeating-linear-gradient(0deg, rgba(64,43,71,.02) 0 1px, transparent 1px 5px),
-        linear-gradient(135deg, #fff8ec, #e2d4be);
-      border-radius: 13px 13px 6px 6px;
-      box-shadow: inset 0 2px 0 rgba(255,255,255,.72), 0 10px 18px rgba(64,43,71,.1);
+        linear-gradient(180deg, rgba(230, 215, 194, .72), rgba(255, 248, 236, .96)),
+        linear-gradient(32deg, transparent 49.5%, rgba(169, 47, 95, .52) 49.8%, rgba(169, 47, 95, .52) 50.2%, transparent 50.5%),
+        linear-gradient(-32deg, transparent 49.5%, rgba(169, 47, 95, .42) 49.8%, rgba(169, 47, 95, .42) 50.2%, transparent 50.5%);
+      clip-path: polygon(0 0, 50% 34%, 100% 0, 100% 100%, 0 100%);
+      box-shadow: inset 0 14px 18px rgba(64, 43, 71, .08);
+      transition: transform 1000ms cubic-bezier(.18, .84, .2, 1), filter 900ms ease;
+    }
+
+    .letter-flap {
+      position: absolute;
+      inset: 20px 20px auto;
+      z-index: 6;
+      height: 52%;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      background:
+        repeating-linear-gradient(0deg, rgba(64, 43, 71, .025) 0 1px, transparent 1px 7px),
+        linear-gradient(135deg, #fff8ec, #decdb7);
+      box-shadow:
+        inset 0 2px 0 rgba(255, 255, 255, .72),
+        0 18px 26px rgba(64, 43, 71, .15);
+      transform: rotateX(0deg);
+      transform-style: preserve-3d;
+      backface-visibility: visible;
+      transition:
+        transform 1320ms cubic-bezier(.18, .8, .16, 1),
+        box-shadow 1200ms ease,
+        filter 900ms ease;
+    }
+
+    .letter-flap::before,
+    .letter-flap::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      clip-path: inherit;
+      pointer-events: none;
+    }
+
+    .letter-flap::before {
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, .22), transparent 48%, rgba(64, 43, 71, .16)),
+        linear-gradient(90deg, transparent 49.2%, rgba(169, 47, 95, .4) 49.7%, rgba(169, 47, 95, .4) 50.3%, transparent 50.8%);
+    }
+
+    .letter-flap::after {
+      background:
+        repeating-linear-gradient(0deg, rgba(64, 43, 71, .035) 0 1px, transparent 1px 7px),
+        linear-gradient(135deg, #ddcbb4, #fff8ec);
+      transform: rotateX(180deg) translateZ(1px);
       backface-visibility: hidden;
     }
 
-    .mail-flap-back {
+    .flap-shadow {
       position: absolute;
-      left: 18px;
-      right: 18px;
-      top: 18px;
-      z-index: 27;
-      height: 55%;
-      transform-origin: top center;
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      background:
-        repeating-linear-gradient(0deg, rgba(64,43,71,.035) 0 1px, transparent 1px 5px),
-        linear-gradient(135deg, #eadbc3, #fff8ec);
-      border-radius: 13px 13px 6px 6px;
+      left: 9%;
+      right: 9%;
+      top: 43%;
+      z-index: 4;
+      height: 12%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(64, 43, 71, .38), transparent 68%);
       opacity: 0;
-      transform: rotateX(0deg);
-      box-shadow: 0 -16px 30px rgba(64,43,71,.22);
+      transform: translateY(-14px) scaleX(.86);
+      transition: opacity 720ms ease, transform 1050ms cubic-bezier(.2, .84, .2, 1);
       pointer-events: none;
     }
 
-    .mail-flap::after {
-      content: "";
+    .letter-photo {
       position: absolute;
-      inset: 6px;
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      border-top: 2px solid rgba(169,47,95,.72);
-      border-left: 2px solid rgba(169,47,95,.55);
-      border-right: 2px solid rgba(169,47,95,.55);
-      opacity: .75;
-    }
-
-    .mail-seam {
-      position: absolute;
-      inset: 0;
-      z-index: 22;
-      pointer-events: none;
-    }
-
-    .mail-bow {
-      position: absolute;
-      left: 50%;
-      top: 46%;
-      z-index: 34;
-      width: 82px;
-      transform: translate(-50%, -50%);
-      color: #a92f5f;
-      transition: transform 800ms cubic-bezier(.2,.86,.2,1), opacity 600ms ease;
-      filter: drop-shadow(0 3px 0 rgba(255,255,255,.52));
-    }
-
-    .envelope-note {
-      color: #262423;
-      text-shadow: 0 1px 0 rgba(255,255,255,.62);
-    }
-
-    .inside-letter {
-      position: absolute;
-      left: 11%;
-      right: 11%;
-      top: 8%;
-      z-index: 5;
-      height: 62%;
-      border-radius: 14px 14px 5px 5px;
-      border: 1px solid rgba(64,43,71,.18);
+      left: 12%;
+      right: 12%;
+      top: 12%;
+      z-index: 1;
+      height: 68%;
+      border: 1px solid rgba(64, 43, 71, .2);
       background:
-        linear-gradient(135deg, rgba(201,224,235,.55), rgba(255,255,255,.9) 44%, rgba(255,116,199,.24)),
-        url("birthday-photo-placeholder.png") center 35% / cover;
-      box-shadow: 0 16px 34px rgba(64,43,71,.22);
-      opacity: .3;
-      transform: translateY(42px) scale(.9);
-      transition: transform 900ms cubic-bezier(.2,.9,.18,1), opacity 780ms ease, filter 800ms ease;
+        linear-gradient(180deg, rgba(64, 43, 71, .08), rgba(255, 116, 199, .18)),
+        url("birthday-photo-placeholder.png") center 32% / cover;
+      box-shadow: 0 18px 34px rgba(64, 43, 71, .24);
+      opacity: .22;
+      transform: translateY(52px) scale(.92) rotate(-1.2deg);
+      transition:
+        transform 1220ms cubic-bezier(.18, .9, .15, 1) 420ms,
+        opacity 760ms ease 420ms,
+        box-shadow 900ms ease 420ms;
+      will-change: transform, opacity;
     }
 
-    .front-pocket {
-      position: absolute;
-      inset: 0;
-      z-index: 18;
-      border-radius: 18px;
-      pointer-events: none;
-      background: linear-gradient(180deg, transparent 40%, rgba(232,219,199,.9) 41%, rgba(251,244,232,.72));
-      clip-path: polygon(0 42%, 50% 72%, 100% 42%, 100% 100%, 0 100%);
+    .letter-note,
+    .seal {
+      transition: opacity 460ms ease, transform 620ms cubic-bezier(.18, .84, .2, 1);
     }
 
-    .opened .paper-envelope {
-      animation: envelopeOpen 900ms cubic-bezier(.25,.8,.25,1) forwards;
+    .opened .letter {
+      filter: brightness(1.04);
+      animation: envelopeOpenBody 1600ms cubic-bezier(.18, .84, .2, 1) forwards;
     }
 
-    .opened .mail-flap {
-      animation: flapOpen 900ms cubic-bezier(.25,.8,.25,1) forwards;
+    .opened .letter-pocket::before {
+      transform: translateY(5px);
+      filter: brightness(1.025);
     }
 
-    .opened .mail-flap-back {
-      animation: flapBackOpen 900ms cubic-bezier(.25,.8,.25,1) forwards;
+    .opened .letter-flap {
+      transform: rotateX(-178deg);
+      filter: brightness(1.05);
+      box-shadow:
+        inset 0 -2px 0 rgba(255, 255, 255, .42),
+        0 -18px 34px rgba(64, 43, 71, .2);
     }
 
-    .opened .mail-bow {
-      animation: bowPop 900ms cubic-bezier(.25,.8,.25,1) forwards;
+    .opened .flap-shadow {
+      opacity: .52;
+      transform: translateY(6px) scaleX(1.04);
     }
 
-    .opened .inside-letter {
-      animation: insideReveal 900ms cubic-bezier(.25,.8,.25,1) forwards;
+    .opened .letter-photo {
+      opacity: 1;
+      transform: translateY(-132px) scale(1.01) rotate(.4deg);
+      box-shadow: 0 22px 38px rgba(64, 43, 71, .24), 0 0 28px rgba(255, 116, 199, .26);
     }
 
-    @keyframes orbDrift {
-      0%, 100% { transform: translate3d(0,0,0) rotate(-4deg); }
-      50% { transform: translate3d(24px,-18px,0) rotate(7deg); }
+    .opened .letter-note,
+    .opened .seal {
+      opacity: 0;
+      transform: translate(-50%, -64%) scale(.82);
     }
 
-    @keyframes twinkle {
-      0%, 100% { transform: scale(.75); opacity: .3; }
-      50% { transform: scale(1.35); opacity: 1; }
-    }
-
-    @keyframes trailMove {
-      from { translate: -22vw 0; opacity: 0; }
-      20%, 70% { opacity: .42; }
-      to { translate: 122vw 0; opacity: 0; }
-    }
-
-    @keyframes glyphFloat {
-      0%, 100% { transform: translate3d(0,0,0) rotate(-8deg); opacity: .2; }
-      50% { transform: translate3d(0,-24px,0) rotate(10deg); opacity: .46; }
-    }
-
-    .reference-frame {
-      background:
-        linear-gradient(135deg, rgba(64,43,71,.88), rgba(38,36,35,.84)),
-        url("mystic-sisters-reference.jpeg") center / cover;
-      background-blend-mode: multiply, normal;
+    .opened .tap-hint {
+      opacity: 0;
+      transform: translate(-50%, 16px);
     }
 
     .fade-away {
       opacity: 0;
       pointer-events: none;
-      transform: translateY(-18px) scale(1.02);
+      transform: translateY(-18px) scale(1.015);
+    }
+
+    @keyframes envelopeIdle {
+      0%, 100% {
+        transform: rotate(-1.2deg) translateY(0);
+      }
+      50% {
+        transform: rotate(-.45deg) translateY(-4px);
+      }
+    }
+
+    @keyframes envelopeOpenBody {
+      0% {
+        transform: rotate(-1.2deg) translateY(0) scale(1);
+      }
+      34% {
+        transform: rotate(-.6deg) translateY(-7px) scale(1.018);
+      }
+      72% {
+        transform: rotate(.2deg) translateY(-3px) scale(1.028);
+      }
+      100% {
+        transform: rotate(0deg) translateY(-9px) scale(1.03);
+      }
+    }
+
+    .site-shell {
+      background:
+        linear-gradient(180deg, rgba(64, 43, 71, .86), rgba(64, 43, 71, .55) 38%, rgba(246, 237, 223, .96) 38%, #f6eddf 100%);
+    }
+
+    .hero-photo {
+      background:
+        linear-gradient(90deg, rgba(38, 36, 35, .72), rgba(64, 43, 71, .18) 42%, rgba(255, 116, 199, .18)),
+        url("birthday-photo-placeholder.png") center 28% / cover;
+    }
+
+    .mystic-reference {
+      background:
+        linear-gradient(180deg, rgba(38, 36, 35, .18), rgba(38, 36, 35, .74)),
+        url("mystic-sisters-reference.jpeg") center / cover;
+    }
+
+    .section-label {
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+
+    .memory-card {
+      border: 1px solid rgba(64, 43, 71, .18);
+      background: rgba(255, 255, 255, .42);
+      box-shadow: 0 18px 38px rgba(64, 43, 71, .1);
     }
 
     .reveal {
       opacity: 0;
-      transform: translateY(34px);
-      transition: opacity 750ms ease, transform 750ms ease;
+      transform: translateY(28px);
+      transition: opacity 760ms ease, transform 760ms ease;
     }
 
     .reveal.visible {
@@ -539,243 +423,209 @@
       transform: translateY(0);
     }
 
-    .sparkle {
-      animation: float 5.5s ease-in-out infinite;
+    .ticker {
+      display: flex;
+      overflow: hidden;
+      border-block: 1px solid rgba(201, 224, 235, .28);
+      color: var(--pale);
+      background: rgba(38, 36, 35, .32);
     }
 
-    @keyframes float {
-      0%, 100% { transform: translate3d(0,0,0) rotate(0deg); }
-      50% { transform: translate3d(0,-14px,0) rotate(8deg); }
+    .ticker-track {
+      display: flex;
+      min-width: max-content;
+      animation: tickerMove 22s linear infinite;
     }
 
-    /* Envelope opening animations */
-    @keyframes flapOpen {
-      0% { transform: rotateX(0deg); }
-      70% { transform: rotateX(-200deg); }
-      100% { transform: rotateX(-168deg); }
-    }
-    @keyframes flapBackOpen {
-      0% { opacity: 0; transform: rotateX(0deg); }
-      70% { opacity: 1; transform: rotateX(-200deg); }
-      100% { opacity: 1; transform: rotateX(-168deg); }
-    }
-    @keyframes bowPop {
-      0% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
-      60% { opacity: 0.3; transform: translate(-50%, -70%) scale(0.85) rotate(4deg); }
-      100% { opacity: .15; transform: translate(-50%, -80%) scale(.72) rotate(8deg); }
-    }
-    @keyframes envelopeOpen {
-      0% { transform: rotate(-4deg) translateY(0) scale(1); filter: brightness(1); }
-      60% { transform: rotate(-2deg) translateY(-4px) scale(1.015); filter: brightness(1.03); }
-      100% { transform: rotate(0deg) translateY(-8px) scale(1.03); filter: brightness(1.05); }
+    .ticker span {
+      padding: .85rem 1.2rem;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
-@keyframes insideReveal {
-      0% { opacity: 0; transform: translateY(42px) scale(0.9); }
-      100% { opacity: 1; transform: translateY(-132px) scale(1); }
+    @keyframes tickerMove {
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
     }
 
     @media (max-width: 640px) {
-      .editorial-title {
-        line-height: .86;
+      .display-title {
+        line-height: .9;
+      }
+
+      .ornate-box::before,
+      .ornate-box::after {
+        width: 46px;
+        height: 46px;
       }
     }
   </style>
 </head>
-<body>
+<body class="locked">
   <main>
-    <section id="intro" class="intro-sky fixed inset-0 z-50 grid place-items-center overflow-hidden px-5 transition-all duration-700">
-      <div class="absolute inset-0">
-        <div class="magic-orb -left-20 top-14 h-56 w-72 rotate-[-18deg]"></div>
-        <div class="magic-orb -right-24 bottom-12 h-64 w-96 rotate-[14deg]" style="animation-delay:-3s;"></div>
-        <div class="magic-orb left-[58%] top-[10%] h-24 w-40 opacity-40" style="animation-delay:-5s;"></div>
-        <span class="twinkle-dot left-[12%] top-[38%]" style="--s:7px;--c:#ff74c7;--d:3.2s;"></span>
-        <span class="twinkle-dot left-[23%] top-[18%]" style="--s:5px;--c:#C9E0EB;--d:4.4s;"></span>
-        <span class="twinkle-dot left-[76%] top-[27%]" style="--s:8px;--c:#8350C4;--d:3.7s;"></span>
-        <span class="twinkle-dot left-[84%] top-[62%]" style="--s:6px;--c:#ff74c7;--d:4.9s;"></span>
-        <span class="twinkle-dot left-[34%] top-[75%]" style="--s:4px;--c:#C9E0EB;--d:3.9s;"></span>
-        <span class="light-trail left-0 top-[22%]" style="--r:-12deg;--d:8s;"></span>
-        <span class="light-trail left-0 top-[54%]" style="--r:8deg;--d:9.5s;animation-delay:-4s;"></span>
-        <span class="light-trail left-0 top-[76%]" style="--r:-4deg;--d:7.6s;animation-delay:-2s;"></span>
-        <span class="floating-glyph left-[9%] bottom-[18%]" style="--fs:44px;--d:7s;">22</span>
-        <span class="floating-glyph right-[14%] top-[18%]" style="--fs:38px;--d:8.5s;animation-delay:-3s;">HB</span>
-        <span class="floating-glyph left-[42%] top-[9%]" style="--fs:30px;--d:9s;animation-delay:-5s;">xoxo</span>
-      </div>
+    <section id="intro" class="intro-scene fixed inset-0 z-50 grid place-items-center overflow-hidden px-5 transition-all duration-700">
+      <div class="intro-frame absolute inset-y-0 left-0 right-0"></div>
+      <div class="absolute left-6 top-6 hidden h-24 w-24 border-l border-t border-pale/35 sm:block"></div>
+      <div class="absolute bottom-6 right-6 hidden h-24 w-24 border-b border-r border-pale/35 sm:block"></div>
 
-      <button id="openEnvelope" class="envelope-wrap relative aspect-[1.55] w-[min(88vw,660px)] border-0 bg-transparent p-0 outline-none" aria-label="Buka amplop ulang tahun">
-        <span class="inside-letter"></span>
-        <span class="paper-envelope absolute inset-0 block rounded-[18px]">
-          <span class="absolute inset-x-[18px] bottom-[18px] top-[44%] z-10 rounded-b-[13px] border-b-2 border-l-2 border-r-2 border-[#a92f5f]/70"></span>
-          <span class="mail-flap"></span>
-          <span class="mail-flap-back"></span>
-          <span class="front-pocket"></span>
-          <svg class="mail-seam" viewBox="0 0 660 426" preserveAspectRatio="none" aria-hidden="true">
-            <path d="M27 35 L330 230 L633 35" fill="none" stroke="#a92f5f" stroke-width="2.4" stroke-linecap="round" opacity=".78" />
-            <path d="M27 35 L27 389 Q27 403 42 403 L618 403 Q633 403 633 389 L633 35" fill="none" stroke="#a92f5f" stroke-width="2.4" stroke-linecap="round" opacity=".62" />
-            <path d="M34 382 L221 237" fill="none" stroke="#a92f5f" stroke-width="2.2" stroke-linecap="round" opacity=".45" />
-            <path d="M626 382 L439 237" fill="none" stroke="#a92f5f" stroke-width="2.2" stroke-linecap="round" opacity=".45" />
-          </svg>
-          <svg class="mail-bow" viewBox="0 0 120 92" aria-hidden="true">
-            <path d="M58 41 C37 21 17 19 13 34 C9 48 29 55 57 46" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
-            <path d="M62 41 C83 21 103 19 107 34 C111 48 91 55 63 46" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
-            <path d="M53 42 C54 33 66 33 67 42 C68 52 52 52 53 42Z" fill="none" stroke="currentColor" stroke-width="4" />
-            <path d="M55 50 C48 64 39 77 28 82" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
-            <path d="M65 50 C73 65 74 78 84 86" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
-          </svg>
-          <span class="envelope-note absolute bottom-[13%] left-1/2 z-30 -translate-x-1/2 whitespace-nowrap text-[clamp(.72rem,2vw,.95rem)] font-black uppercase tracking-[.18em]">DON'T OPEN BEFORE 24/06/26</span>
-        </span>
-        <span class="open-hint absolute -bottom-16 left-1/2 z-40 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#f6eddf] px-6 py-3 text-[10px] font-black uppercase tracking-[.32em] text-violet shadow-[0_14px_34px_rgba(0,0,0,.2)]">tap to open</span>
-      </button>
+      <div class="relative z-10 mx-auto w-full max-w-4xl">
+        <p class="section-label mb-5 text-center text-chrome">private birthday transmission</p>
+        <button id="openEnvelope" class="letter-button relative mx-auto block aspect-[1.58] w-[min(88vw,680px)] border-0 bg-transparent p-0 text-left outline-none" aria-label="Buka surat ulang tahun">
+          <span class="letter-photo"></span>
+          <span class="letter absolute inset-0 block">
+            <span class="letter-flap"></span>
+            <span class="flap-shadow"></span>
+            <span class="letter-pocket"></span>
+            <span class="absolute left-1/2 top-1/2 z-10 grid h-20 w-20 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full seal text-lg font-black uppercase tracking-[.08em] text-white sm:h-24 sm:w-24">24</span>
+            <span class="letter-note absolute bottom-[14%] left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-[clamp(.68rem,2.1vw,.92rem)] font-black uppercase tracking-[.24em] text-violet">open after midnight</span>
+          </span>
+          <span class="tap-hint absolute -bottom-16 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap border border-pale/35 bg-pale px-5 py-3 text-[10px] font-black uppercase tracking-[.28em] text-violet shadow-[0_16px_30px_rgba(0,0,0,.28)] transition">tap to begin</span>
+        </button>
+      </div>
     </section>
 
-    <section id="site" class="mx-auto hidden min-h-screen w-full max-w-[980px] px-4 py-10 sm:px-8">
-      <article class="relative overflow-hidden bg-gradient-to-b from-[#2d0135] via-[#dff2f0] to-[#eef1ff] shadow-[0_24px_90px_rgba(0,0,0,.34)]">
-        <header class="relative min-h-[560px] overflow-hidden bg-[#3d003f] px-7 py-7 text-pale sm:px-12">
-          <nav class="relative z-20 flex items-center justify-between text-[10px] font-black uppercase tracking-[.22em]">
-            <div class="rounded-sm border border-pale/40 px-2 py-1 leading-tight">Birthday<br />Archive</div>
-            <div class="hidden rounded-full border border-pale/30 px-4 py-1 text-pale/70 sm:block">a midnight chrome letter</div>
-            <button class="grid h-9 w-9 place-items-center rounded-full border border-pale/30 text-pale transition hover:bg-pale/10" aria-label="Menu">
-              <span class="h-[2px] w-4 bg-current shadow-[0_6px_0_current,0_-6px_0_current]"></span>
-            </button>
-          </nav>
+    <section id="site" class="site-shell hidden min-h-screen">
+      <header class="relative overflow-hidden px-5 pb-12 pt-6 text-pale sm:px-8 lg:px-12">
+        <nav class="mx-auto flex max-w-6xl items-center justify-between gap-5 text-[10px] font-black uppercase tracking-[.22em]">
+          <a href="#wish" class="border border-pale/35 px-3 py-2 text-pale transition hover:bg-pale hover:text-violet">Birthday Nocturne</a>
+          <div class="hidden items-center gap-5 text-pale/72 sm:flex">
+            <a href="#wish" class="transition hover:text-chrome">Wish</a>
+            <a href="#memories" class="transition hover:text-chrome">Memories</a>
+            <a href="#finale" class="transition hover:text-chrome">Finale</a>
+          </div>
+        </nav>
 
-          <div class="glass-object right-[-85px] top-28 h-64 w-[440px] rotate-[-8deg] sm:right-[-120px] sm:h-80 sm:w-[560px]"></div>
-          <div class="glass-object bottom-[-120px] left-[-70px] h-56 w-72 rotate-[24deg] opacity-40"></div>
-
-          <div class="relative z-10 mt-16 max-w-3xl">
-            <p class="mb-5 text-xs font-black uppercase tracking-[.36em] text-chrome">June 24 / Special Edition</p>
-            <h1 class="editorial-title text-[5.3rem] text-white sm:text-[8.4rem] md:text-[10rem]">
-              HAPPY<br /><span class="chrome-text block text-[4.1rem] italic sm:text-[7rem] md:text-[8.4rem]">Birthday</span>
+        <div class="mx-auto mt-10 grid max-w-6xl gap-8 lg:grid-cols-[1.08fr_.92fr] lg:items-end">
+          <div class="relative z-10">
+            <p class="section-label mb-5 text-chrome">June 24 / special edition</p>
+            <h1 class="display-title text-[clamp(4.4rem,12vw,10.6rem)] text-white">
+              Happy<br /><span class="chrome-text italic">Birthday</span>
             </h1>
-            <div class="mt-8 flex flex-wrap items-end gap-4">
-              <div class="rounded-full border border-pale/30 bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-[.24em] text-pale backdrop-blur">for Aurora</div>
-              <p class="max-w-xs text-sm leading-6 text-pale/78">A shiny little world made for one beautiful birthday, filled with memories, wishes, and soft midnight light.</p>
-            </div>
-          </div>
-        </header>
-
-        <section class="reveal px-7 py-14 sm:px-12">
-          <div class="mb-5 flex flex-wrap items-end justify-between gap-4">
-            <h2 class="font-display text-2xl font-bold uppercase text-violet">Today Event</h2>
-            <div class="flex flex-wrap gap-2 text-[10px] font-bold uppercase tracking-[.16em] text-violet">
-              <span class="rounded-full bg-lilac px-3 py-1 text-white">wish</span>
-              <span class="rounded-full bg-violet px-3 py-1 text-pale">memory</span>
-              <span class="rounded-full bg-denim px-3 py-1 text-white">magic</span>
-            </div>
+            <div class="hairline mt-8 max-w-xl"></div>
+            <p class="mt-7 max-w-xl text-sm leading-7 text-pale/78 sm:text-base">
+              Sebuah halaman kecil yang dibuat seperti surat malam: lembut, berkilau, sedikit misterius, dan seluruhnya untuk merayakan kamu.
+            </p>
           </div>
 
-          <div class="grid overflow-hidden bg-[#420043] text-pale shadow-[0_18px_45px_rgba(64,43,71,.28)] md:grid-cols-[1.25fr_.9fr]">
-            <div class="min-h-64 bg-[linear-gradient(135deg,rgba(38,36,35,.1),rgba(64,43,71,.3)),url('https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=1200&q=80')] bg-cover bg-center"></div>
-            <div class="p-7">
-              <p class="mb-2 text-[10px] font-black uppercase tracking-[.22em] text-chrome">main ceremony</p>
-              <h3 class="font-display text-3xl leading-none text-white">A day that belongs to you</h3>
-              <p class="mt-5 text-sm leading-6 text-pale/75">Semoga hari ini terasa hangat, indah, dan sedikit berkilau. Ini baru placeholder, nanti semua kalimat bisa dibuat lebih personal.</p>
-              <button class="mt-6 rounded-full bg-pale px-5 py-2 text-xs font-black uppercase tracking-[.16em] text-violet transition hover:bg-white">read wish</button>
-            </div>
-          </div>
-        </section>
+          <figure class="relative min-h-[520px] overflow-hidden border border-pale/24 bg-shadow shadow-[0_32px_80px_rgba(0,0,0,.32)]">
+            <div class="hero-photo absolute inset-0"></div>
+            <figcaption class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-shadow via-shadow/72 to-transparent p-6">
+              <p class="section-label text-chrome">birthday portrait</p>
+              <p class="mt-2 max-w-sm text-sm leading-6 text-pale/76">Chrome pink, violet night, soft blue light, and one person who deserves the main frame.</p>
+            </figcaption>
+          </figure>
+        </div>
+      </header>
 
-        <section class="reveal px-7 py-14 sm:px-12">
-          <div class="grid gap-7 bg-[#241421] p-5 text-pale shadow-[0_20px_60px_rgba(64,43,71,.28)] md:grid-cols-[.92fr_1fr] md:p-7">
-            <div class="reference-frame min-h-[420px] border border-pale/20"></div>
-            <div class="relative overflow-hidden border border-pale/18 bg-[#f6eddf] p-7 text-violet">
-              <span class="ornate-corner left-5 top-5 text-violet"></span>
-              <span class="ornate-corner corner-tr right-5 top-5 text-violet"></span>
-              <span class="ornate-corner corner-bl bottom-5 left-5 text-violet"></span>
-              <span class="ornate-corner corner-br bottom-5 right-5 text-violet"></span>
-              <div class="relative z-10 grid min-h-[366px] place-items-center text-center">
-                <div>
-                  <p class="text-[10px] font-black uppercase tracking-[.3em] text-lilac">visual direction</p>
-                  <h2 class="mt-5 font-display text-5xl leading-none text-violet sm:text-6xl">Mystic<br />Birthday<br />Sisters</h2>
-                  <p class="mx-auto mt-5 max-w-sm text-sm leading-7 text-violet/72">Referensi ornamen ini aku jadikan aksen: frame klasik, warna cream-violet, dan nuansa fortune card supaya birthday web-nya terasa lebih mahal dan magical.</p>
-                  <div class="mx-auto mt-7 grid h-16 w-16 place-items-center rounded-full bg-violet text-[#f6eddf]">
-                    <span class="mystic-monogram text-3xl">MS</span>
-                  </div>
-                </div>
+      <div class="ticker">
+        <div class="ticker-track">
+          <span>soft wishes</span><span>midnight glow</span><span>little universe</span><span>happy birthday</span><span>denim light</span><span>chrome pink</span>
+          <span>soft wishes</span><span>midnight glow</span><span>little universe</span><span>happy birthday</span><span>denim light</span><span>chrome pink</span>
+        </div>
+      </div>
+
+      <section id="wish" class="reveal mx-auto grid max-w-6xl gap-8 px-5 py-16 sm:px-8 lg:grid-cols-[.8fr_1.2fr] lg:px-12">
+        <aside class="ornate-box grid min-h-[360px] place-items-center p-8 text-center text-violet">
+          <div class="relative z-10">
+            <p class="section-label text-lilac">the wish</p>
+            <h2 class="font-display mt-5 text-5xl leading-none sm:text-6xl">For the girl<br />of today</h2>
+            <p class="mx-auto mt-6 max-w-xs text-sm leading-7 text-violet/72">Bukan ucapan yang terlalu ramai. Cukup satu halaman yang diam-diam bilang: kamu penting.</p>
+          </div>
+        </aside>
+
+        <article class="grid content-between bg-violet p-7 text-pale shadow-[0_24px_64px_rgba(64,43,71,.24)] sm:p-10">
+          <p class="section-label text-chrome">main message</p>
+          <h2 class="font-display mt-6 max-w-2xl text-4xl leading-tight text-white sm:text-6xl">
+            Semoga tahun ini datang dengan hal-hal baik yang terasa ringan untuk diterima.
+          </h2>
+          <div class="mt-10 grid gap-5 border-t border-pale/18 pt-7 text-sm leading-7 text-pale/76 md:grid-cols-2">
+            <p>Semoga kamu punya lebih banyak alasan untuk tertawa, lebih banyak ruang untuk istirahat, dan lebih banyak keberanian untuk memilih apa yang benar-benar bikin kamu hidup.</p>
+            <p>Di antara semua hal yang berubah, semoga kamu tetap menemukan versi dirimu yang paling lembut, paling terang, dan paling bebas.</p>
+          </div>
+        </article>
+      </section>
+
+      <section id="memories" class="reveal mx-auto max-w-6xl px-5 py-12 sm:px-8 lg:px-12">
+        <div class="mb-8 flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <p class="section-label text-lilac">memory index</p>
+            <h2 class="font-display mt-3 text-4xl leading-none text-violet sm:text-6xl">Things worth keeping</h2>
+          </div>
+          <p class="max-w-sm text-sm leading-6 text-violet/68">Bagian ini bisa diganti nanti dengan cerita personal, foto tambahan, atau inside jokes yang cuma kalian berdua yang paham.</p>
+        </div>
+
+        <div class="grid gap-4 md:grid-cols-3">
+          <article class="memory-card min-h-72 p-6">
+            <p class="section-label text-denim">01 / smile</p>
+            <h3 class="font-display mt-16 text-3xl leading-none text-violet">The small bright thing</h3>
+            <p class="mt-5 text-sm leading-6 text-violet/68">Untuk senyum kecil yang sering datang tanpa aba-aba, lalu membuat hari terasa lebih mudah.</p>
+          </article>
+          <article class="memory-card min-h-72 bg-violet p-6 text-pale">
+            <p class="section-label text-chrome">02 / dream</p>
+            <h3 class="font-display mt-16 text-3xl leading-none text-white">The brave next chapter</h3>
+            <p class="mt-5 text-sm leading-6 text-pale/72">Untuk mimpi yang sedang tumbuh pelan-pelan. Semoga jalannya terbuka dengan cara yang manis.</p>
+          </article>
+          <article class="memory-card min-h-72 p-6">
+            <p class="section-label text-denim">03 / glow</p>
+            <h3 class="font-display mt-16 text-3xl leading-none text-violet">The glow you carry</h3>
+            <p class="mt-5 text-sm leading-6 text-violet/68">Untuk cahaya yang tidak harus keras supaya terlihat. Kamu punya cara sendiri untuk bersinar.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="reveal mx-auto grid max-w-6xl gap-8 px-5 py-16 sm:px-8 lg:grid-cols-[1fr_1fr] lg:px-12">
+        <div class="mystic-reference min-h-[560px] border border-violet/18 shadow-[0_24px_70px_rgba(64,43,71,.2)]"></div>
+        <div class="grid content-center bg-shadow p-7 text-pale sm:p-10">
+          <p class="section-label text-chrome">visual spell</p>
+          <h2 class="display-title mt-5 text-[4rem] text-white sm:text-[6.2rem]">
+            Mystic<br /><span class="chrome-text italic">Birthday</span>
+          </h2>
+          <p class="mt-7 max-w-lg text-sm leading-7 text-pale/72">
+            Ornamen dari referensi lama dipertahankan sebagai rasa utama: klasik, fortune-card, dan sedikit royal. Bedanya, desain baru dibuat lebih lapang, lebih fokus pada foto, dan lebih terasa seperti satu perjalanan.
+          </p>
+          <div class="mt-8 grid grid-cols-3 gap-3 text-center text-[10px] font-black uppercase tracking-[.16em]">
+            <span class="bg-pale px-3 py-4 text-violet">pale blue</span>
+            <span class="bg-lilac px-3 py-4 text-white">lilac</span>
+            <span class="bg-chrome px-3 py-4 text-violet">chrome</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="finale" class="reveal px-5 pb-14 pt-8 sm:px-8 lg:px-12">
+        <div class="mx-auto max-w-6xl overflow-hidden bg-violet text-pale shadow-[0_26px_76px_rgba(38,36,35,.34)]">
+          <div class="grid lg:grid-cols-[1.1fr_.9fr]">
+            <div class="p-8 sm:p-12">
+              <p class="section-label text-chrome">final note</p>
+              <h2 class="font-display mt-5 text-5xl leading-none text-white sm:text-7xl">Make a wish,<br />then keep going.</h2>
+              <p class="mt-8 max-w-2xl text-sm leading-7 text-pale/76">
+                Selamat ulang tahun. Semoga yang kamu tunggu datang dengan kabar baik, semoga yang kamu mulai tumbuh dengan indah, dan semoga kamu selalu punya tempat pulang yang terasa aman.
+              </p>
+            </div>
+            <div class="cream-paper grid min-h-[360px] place-items-center p-8 text-center text-violet">
+              <div>
+                <p class="section-label text-lilac">24 / 06 / 26</p>
+                <p class="font-display mt-5 text-8xl font-black leading-none tracking-normal">22</p>
+                <p class="mt-5 text-xs font-black uppercase tracking-[.24em] text-violet/70">happy birthday, aurora</p>
               </div>
             </div>
           </div>
-        </section>
-
-        <section class="reveal relative px-7 py-12 sm:px-12">
-          <div class="mx-auto max-w-3xl text-center">
-            <p class="text-[10px] font-black uppercase tracking-[.3em] text-lilac">birthday question</p>
-            <h2 class="editorial-title mt-5 text-[4.2rem] text-violet sm:text-[6.8rem]">
-              What's<br /><span class="chrome-text italic">so Special?</span>
-            </h2>
-            <p class="mx-auto mt-6 max-w-xl text-sm leading-7 text-violet/80">Karena kamu punya cara sendiri untuk membuat hari biasa terasa lebih hidup. Semoga tahun ini membawa tawa yang lebih panjang, hati yang lebih ringan, dan mimpi yang semakin dekat.</p>
-          </div>
-          <div class="glass-object left-1/2 top-1/2 h-28 w-56 -translate-x-1/2 rotate-[-16deg] opacity-75"></div>
-        </section>
-
-        <section class="reveal px-7 py-12 sm:px-12">
-          <h2 class="mb-6 font-display text-2xl font-bold uppercase text-violet">Thrills & Delights</h2>
-          <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            <div class="min-h-60 bg-violet p-5 text-pale">
-              <h3 class="font-display text-2xl">Stay and smile</h3>
-              <p class="mt-20 text-xs leading-5 text-pale/68">Untuk semua senyum kecil yang selalu berhasil bikin suasana jadi lebih baik.</p>
-            </div>
-            <div class="min-h-60 bg-[#5b3371] p-5 text-pale">
-              <h3 class="font-display text-2xl">Dream archive</h3>
-              <p class="mt-20 text-xs leading-5 text-pale/68">Semoga setiap rencana baikmu bertemu jalan yang lembut dan terang.</p>
-            </div>
-            <div class="min-h-60 bg-violet p-5 text-pale">
-              <h3 class="font-display text-2xl">Purple luck</h3>
-              <p class="mt-20 text-xs leading-5 text-pale/68">A little blessing, a little sparkle, and a lot of happiness for you.</p>
-            </div>
-            <div class="min-h-60 bg-[#5b3371] p-5 text-pale">
-              <h3 class="font-display text-2xl">Into the glow</h3>
-              <p class="mt-20 text-xs leading-5 text-pale/68">Tahun baru, versi baru, tetap kamu yang paling bercahaya.</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="reveal px-7 py-16 sm:px-12">
-          <div class="grid items-center gap-8 md:grid-cols-[1fr_1.2fr_1fr]">
-            <div class="space-y-5 text-sm text-violet">
-              <div class="border border-violet/20 bg-white/38 p-4">
-                <p class="font-display text-xl">Favorite Moment</p>
-                <p class="mt-2 text-xs leading-5 text-violet/70">Placeholder foto dan cerita singkat bisa diganti nanti.</p>
-              </div>
-              <div class="border border-violet/20 bg-white/38 p-4">
-                <p class="font-display text-xl">Birthday Mood</p>
-                <p class="mt-2 text-xs leading-5 text-violet/70">Chrome pink, deep lilac, and soft blue light.</p>
-              </div>
-            </div>
-
-            <div class="relative mx-auto grid aspect-square w-full max-w-sm place-items-center rounded-full bg-lilac/14">
-              <div class="glass-object static h-56 w-72 rotate-[-18deg]"></div>
-            </div>
-
-            <div class="space-y-5 text-sm text-violet">
-              <div class="border border-violet/20 bg-white/38 p-4">
-                <p class="font-display text-xl">One Wish</p>
-                <p class="mt-2 text-xs leading-5 text-violet/70">Semoga bahagiamu datang tanpa harus kamu kejar terlalu jauh.</p>
-              </div>
-              <div class="border border-violet/20 bg-white/38 p-4">
-                <p class="font-display text-xl">Little Note</p>
-                <p class="mt-2 text-xs leading-5 text-violet/70">This page is made as a tiny universe just for your birthday.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <footer class="reveal bg-[#ea5b9a] px-7 py-8 text-white sm:px-12">
-          <div class="grid gap-5 md:grid-cols-[1fr_1.6fr]">
-            <div>
-              <h2 class="font-display text-3xl">Location</h2>
-              <p class="mt-2 text-xs font-bold uppercase tracking-[.18em] text-white/72">inside your birthday universe</p>
-            </div>
-            <div class="rounded-3xl bg-pale/95 p-4 text-violet">
-              <div class="h-28 rounded-2xl bg-[linear-gradient(135deg,rgba(115,146,181,.45),rgba(255,255,255,.7)),repeating-linear-gradient(90deg,transparent_0_24px,rgba(64,43,71,.12)_25px),repeating-linear-gradient(0deg,transparent_0_24px,rgba(64,43,71,.1)_25px)]"></div>
-            </div>
-          </div>
-          <div class="mt-8 flex flex-wrap items-center justify-between gap-4 border-t border-white/25 pt-5 text-xs font-bold uppercase tracking-[.18em] text-white/76">
-            <span>made with love</span>
-            <span>happy birthday, aurora</span>
-          </div>
-        </footer>
-      </article>
+        </div>
+      </section>
     </section>
   </main>
 
@@ -784,24 +634,40 @@
     const site = document.querySelector("#site");
     const envelope = document.querySelector("#openEnvelope");
     const reveals = document.querySelectorAll(".reveal");
+    let hasOpened = false;
 
-    envelope.addEventListener("click", () => {
-      envelope.classList.add("opened");
-
-      setTimeout(() => {
-        intro.classList.add("fade-away");
-        site.classList.remove("hidden");
-        document.body.style.overflow = "auto";
-      }, 2100);
+    function showSite() {
+      intro.classList.add("fade-away");
+      site.classList.remove("hidden");
+      document.body.classList.remove("locked");
 
       setTimeout(() => {
         intro.remove();
         window.scrollTo({ top: 0, behavior: "smooth" });
         observeReveals();
-      }, 2900);
+      }, 720);
+    }
+
+    envelope.addEventListener("click", () => {
+      if (hasOpened) return;
+      hasOpened = true;
+      envelope.classList.add("opened");
+      setTimeout(showSite, 1880);
+    });
+
+    envelope.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        envelope.click();
+      }
     });
 
     function observeReveals() {
+      if (!("IntersectionObserver" in window)) {
+        reveals.forEach((element) => element.classList.add("visible"));
+        return;
+      }
+
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -809,11 +675,11 @@
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.16 });
+      }, { threshold: 0.14 });
 
-      reveals.forEach((el, index) => {
-        el.style.transitionDelay = `${Math.min(index * 80, 240)}ms`;
-        observer.observe(el);
+      reveals.forEach((element, index) => {
+        element.style.transitionDelay = `${Math.min(index * 70, 210)}ms`;
+        observer.observe(element);
       });
     }
   </script>
