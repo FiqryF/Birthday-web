@@ -64,7 +64,7 @@
       font-family: Inter, ui-sans-serif, system-ui, sans-serif;
     }
 
-    body.locked {
+    body.intro-active {
       overflow: hidden;
     }
 
@@ -139,247 +139,56 @@
       border-bottom-right-radius: 34px;
     }
 
-    .intro-scene {
-      background:
-        linear-gradient(120deg, rgba(255, 116, 199, .16), transparent 34%),
-        linear-gradient(245deg, rgba(115, 146, 181, .22), transparent 36%),
-        linear-gradient(160deg, #262423, #402B47 58%, #21171f);
-    }
-
-    .intro-frame {
-      background:
-        linear-gradient(90deg, rgba(201, 224, 235, .12) 1px, transparent 1px),
-        linear-gradient(0deg, rgba(201, 224, 235, .08) 1px, transparent 1px);
-      background-size: 34px 34px;
-      mask-image: linear-gradient(90deg, transparent, black 13%, black 87%, transparent);
-    }
-
-    .seal {
-      background:
-        radial-gradient(circle at 35% 28%, rgba(255, 255, 255, .56), transparent 18%),
-        linear-gradient(135deg, var(--chrome), var(--lilac));
-      box-shadow:
-        inset -7px -8px 18px rgba(64, 43, 71, .38),
-        0 12px 34px rgba(255, 116, 199, .36);
-    }
-
-    .letter-button {
-      perspective: 1200px;
-      filter: drop-shadow(0 30px 54px rgba(0, 0, 0, .42));
-      transform-style: preserve-3d;
-      transition: transform 360ms ease, filter 360ms ease;
-    }
-
-    .letter-button:hover {
-      transform: translateY(-3px) rotate(-.35deg);
-      filter: drop-shadow(0 36px 62px rgba(0, 0, 0, .46));
-    }
-
-    .letter {
-      z-index: 2;
-      background:
-        repeating-linear-gradient(0deg, rgba(64, 43, 71, .035) 0 1px, transparent 1px 7px),
-        linear-gradient(135deg, #fff9ee, #e6d7c2);
-      transform-style: preserve-3d;
-      transition: filter 600ms ease;
-      animation: envelopeIdle 5.8s ease-in-out infinite;
-    }
-
-    .letter::before {
-      content: "";
-      position: absolute;
-      inset: 20px;
-      border: 2px solid rgba(169, 47, 95, .72);
-      pointer-events: none;
-    }
-
-    .letter::after {
-      content: "";
-      position: absolute;
+    .eluvletter-intro {
+      position: fixed;
       inset: 0;
-      z-index: 1;
+      z-index: 80;
       background:
-        linear-gradient(135deg, rgba(255, 255, 255, .28), transparent 38%, rgba(64, 43, 71, .13)),
-        linear-gradient(45deg, transparent 49.6%, rgba(169, 47, 95, .64) 49.8%, rgba(169, 47, 95, .64) 50.2%, transparent 50.4%),
-        linear-gradient(-45deg, transparent 49.6%, rgba(169, 47, 95, .48) 49.8%, rgba(169, 47, 95, .48) 50.2%, transparent 50.4%);
-      pointer-events: none;
+        radial-gradient(circle at 20% 18%, rgba(255, 116, 199, .22), transparent 24rem),
+        linear-gradient(145deg, #262423, #402B47);
+      transition: opacity 720ms ease, visibility 720ms ease;
     }
 
-    .letter-pocket {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .letter-pocket::before {
-      content: "";
-      position: absolute;
-      inset: 44% 0 0;
-      background:
-        linear-gradient(180deg, rgba(230, 215, 194, .72), rgba(255, 248, 236, .96)),
-        linear-gradient(32deg, transparent 49.5%, rgba(169, 47, 95, .52) 49.8%, rgba(169, 47, 95, .52) 50.2%, transparent 50.5%),
-        linear-gradient(-32deg, transparent 49.5%, rgba(169, 47, 95, .42) 49.8%, rgba(169, 47, 95, .42) 50.2%, transparent 50.5%);
-      clip-path: polygon(0 0, 50% 34%, 100% 0, 100% 100%, 0 100%);
-      box-shadow: inset 0 14px 18px rgba(64, 43, 71, .08);
-      transition: transform 1000ms cubic-bezier(.18, .84, .2, 1), filter 900ms ease;
-    }
-
-    .letter-flap {
-      position: absolute;
-      inset: 20px 20px auto;
-      z-index: 6;
-      height: 52%;
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      transform-origin: top center;
-      background:
-        repeating-linear-gradient(0deg, rgba(64, 43, 71, .025) 0 1px, transparent 1px 7px),
-        linear-gradient(135deg, #fff8ec, #decdb7);
-      box-shadow:
-        inset 0 2px 0 rgba(255, 255, 255, .72),
-        0 18px 26px rgba(64, 43, 71, .15);
-      transform: rotateX(0deg);
-      transform-style: preserve-3d;
-      backface-visibility: visible;
-      transition:
-        transform 1320ms cubic-bezier(.18, .8, .16, 1),
-        box-shadow 1200ms ease,
-        filter 900ms ease;
-    }
-
-    .letter-flap::before,
-    .letter-flap::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      clip-path: inherit;
-      pointer-events: none;
-    }
-
-    .letter-flap::before {
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, .22), transparent 48%, rgba(64, 43, 71, .16)),
-        linear-gradient(90deg, transparent 49.2%, rgba(169, 47, 95, .4) 49.7%, rgba(169, 47, 95, .4) 50.3%, transparent 50.8%);
-    }
-
-    .letter-flap::after {
-      background:
-        repeating-linear-gradient(0deg, rgba(64, 43, 71, .035) 0 1px, transparent 1px 7px),
-        linear-gradient(135deg, #ddcbb4, #fff8ec);
-      transform: rotateX(180deg) translateZ(1px);
-      backface-visibility: hidden;
-    }
-
-    .flap-shadow {
-      position: absolute;
-      left: 9%;
-      right: 9%;
-      top: 43%;
-      z-index: 4;
-      height: 12%;
-      border-radius: 50%;
-      background: radial-gradient(ellipse at center, rgba(64, 43, 71, .38), transparent 68%);
+    .eluvletter-intro.is-hidden {
       opacity: 0;
-      transform: translateY(-14px) scaleX(.86);
-      transition: opacity 720ms ease, transform 1050ms cubic-bezier(.2, .84, .2, 1);
+      visibility: hidden;
       pointer-events: none;
     }
 
-    .letter-photo {
+    .eluvletter-intro iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #402B47;
+    }
+
+    .intro-enter {
       position: absolute;
-      left: 12%;
-      right: 12%;
-      top: 12%;
-      z-index: 1;
-      height: 68%;
-      border: 1px solid rgba(64, 43, 71, .2);
-      background:
-        linear-gradient(180deg, rgba(64, 43, 71, .08), rgba(255, 116, 199, .18)),
-        url("birthday-photo-placeholder.png") center 32% / cover;
-      box-shadow: 0 18px 34px rgba(64, 43, 71, .24);
-      opacity: .22;
-      transform: translateY(52px) scale(.92) rotate(-1.2deg);
-      transition:
-        transform 1220ms cubic-bezier(.18, .9, .15, 1) 420ms,
-        opacity 760ms ease 420ms,
-        box-shadow 900ms ease 420ms;
-      will-change: transform, opacity;
+      left: 50%;
+      bottom: max(24px, env(safe-area-inset-bottom));
+      z-index: 2;
+      transform: translateX(-50%) translateY(12px);
+      border: 1px solid rgba(201, 224, 235, .44);
+      background: rgba(64, 43, 71, .88);
+      color: var(--pale);
+      padding: .9rem 1.15rem;
+      font-size: .64rem;
+      font-weight: 900;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      opacity: 0;
+      box-shadow: 0 18px 42px rgba(38, 36, 35, .28);
+      transition: opacity 520ms ease, transform 520ms ease, background 240ms ease;
     }
 
-    .letter-note,
-    .seal {
-      transition: opacity 460ms ease, transform 620ms cubic-bezier(.18, .84, .2, 1);
+    .intro-enter:hover {
+      background: var(--violet);
     }
 
-    .opened .letter {
-      filter: brightness(1.04);
-      animation: envelopeOpenBody 1600ms cubic-bezier(.18, .84, .2, 1) forwards;
-    }
-
-    .opened .letter-pocket::before {
-      transform: translateY(5px);
-      filter: brightness(1.025);
-    }
-
-    .opened .letter-flap {
-      transform: rotateX(-178deg);
-      filter: brightness(1.05);
-      box-shadow:
-        inset 0 -2px 0 rgba(255, 255, 255, .42),
-        0 -18px 34px rgba(64, 43, 71, .2);
-    }
-
-    .opened .flap-shadow {
-      opacity: .52;
-      transform: translateY(6px) scaleX(1.04);
-    }
-
-    .opened .letter-photo {
+    .intro-ready .intro-enter {
       opacity: 1;
-      transform: translateY(-132px) scale(1.01) rotate(.4deg);
-      box-shadow: 0 22px 38px rgba(64, 43, 71, .24), 0 0 28px rgba(255, 116, 199, .26);
-    }
-
-    .opened .letter-note,
-    .opened .seal {
-      opacity: 0;
-      transform: translate(-50%, -64%) scale(.82);
-    }
-
-    .opened .tap-hint {
-      opacity: 0;
-      transform: translate(-50%, 16px);
-    }
-
-    .fade-away {
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(-18px) scale(1.015);
-    }
-
-    @keyframes envelopeIdle {
-      0%, 100% {
-        transform: rotate(-1.2deg) translateY(0);
-      }
-      50% {
-        transform: rotate(-.45deg) translateY(-4px);
-      }
-    }
-
-    @keyframes envelopeOpenBody {
-      0% {
-        transform: rotate(-1.2deg) translateY(0) scale(1);
-      }
-      34% {
-        transform: rotate(-.6deg) translateY(-7px) scale(1.018);
-      }
-      72% {
-        transform: rotate(.2deg) translateY(-3px) scale(1.028);
-      }
-      100% {
-        transform: rotate(0deg) translateY(-9px) scale(1.03);
-      }
+      transform: translateX(-50%) translateY(0);
     }
 
     .site-shell {
@@ -476,30 +285,14 @@
     }
   </style>
 </head>
-<body class="locked">
+<body class="intro-active">
   <main>
-    <section id="intro" class="intro-scene fixed inset-0 z-50 grid place-items-center overflow-hidden px-5 transition-all duration-700">
-      <div class="intro-frame absolute inset-y-0 left-0 right-0"></div>
-      <div class="absolute left-6 top-6 hidden h-24 w-24 border-l border-t border-pale/35 sm:block"></div>
-      <div class="absolute bottom-6 right-6 hidden h-24 w-24 border-b border-r border-pale/35 sm:block"></div>
-
-      <div class="relative z-10 mx-auto w-full max-w-4xl">
-        <p class="section-label mb-5 text-center text-chrome">private birthday transmission</p>
-        <button id="openEnvelope" class="letter-button relative mx-auto block aspect-[1.58] w-[min(88vw,680px)] border-0 bg-transparent p-0 text-left outline-none" aria-label="Buka surat ulang tahun">
-          <span class="letter-photo"></span>
-          <span class="letter absolute inset-0 block">
-            <span class="letter-flap"></span>
-            <span class="flap-shadow"></span>
-            <span class="letter-pocket"></span>
-            <span class="absolute left-1/2 top-1/2 z-10 grid h-20 w-20 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full seal text-lg font-black uppercase tracking-[.08em] text-white sm:h-24 sm:w-24">24</span>
-            <span class="letter-note absolute bottom-[14%] left-1/2 z-10 -translate-x-1/2 whitespace-nowrap text-[clamp(.68rem,2.1vw,.92rem)] font-black uppercase tracking-[.24em] text-violet">open after midnight</span>
-          </span>
-          <span class="tap-hint absolute -bottom-16 left-1/2 z-20 -translate-x-1/2 whitespace-nowrap border border-pale/35 bg-pale px-5 py-3 text-[10px] font-black uppercase tracking-[.28em] text-violet shadow-[0_16px_30px_rgba(0,0,0,.28)] transition">tap to begin</span>
-        </button>
-      </div>
+    <section id="eluvletterIntro" class="eluvletter-intro" aria-label="Animasi amplop pembuka">
+      <iframe src="eluvletter/index.html#contact" title="eLuvLetter envelope animation"></iframe>
+      <button id="enterSite" class="intro-enter" type="button">masuk ke ucapan</button>
     </section>
 
-    <section id="site" class="site-shell hidden min-h-screen">
+    <section id="site" class="site-shell min-h-screen">
       <header class="relative overflow-hidden px-5 pb-12 pt-6 text-pale sm:px-8 lg:px-12">
         <nav class="mx-auto flex max-w-6xl items-center justify-between gap-5 text-[10px] font-black uppercase tracking-[.22em]">
           <a href="#wish" class="border border-pale/35 px-3 py-2 text-pale transition hover:bg-pale hover:text-violet">Birthday Nocturne</a>
@@ -630,36 +423,23 @@
   </main>
 
   <script>
-    const intro = document.querySelector("#intro");
-    const site = document.querySelector("#site");
-    const envelope = document.querySelector("#openEnvelope");
+    const intro = document.querySelector("#eluvletterIntro");
+    const enterSite = document.querySelector("#enterSite");
     const reveals = document.querySelectorAll(".reveal");
-    let hasOpened = false;
+    observeReveals();
 
-    function showSite() {
-      intro.classList.add("fade-away");
-      site.classList.remove("hidden");
-      document.body.classList.remove("locked");
-
-      setTimeout(() => {
-        intro.remove();
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        observeReveals();
-      }, 720);
+    if (window.location.hash) {
+      history.replaceState(null, "", window.location.pathname + window.location.search);
     }
 
-    envelope.addEventListener("click", () => {
-      if (hasOpened) return;
-      hasOpened = true;
-      envelope.classList.add("opened");
-      setTimeout(showSite, 1880);
-    });
+    setTimeout(() => {
+      intro.classList.add("intro-ready");
+    }, 1800);
 
-    envelope.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        envelope.click();
-      }
+    enterSite.addEventListener("click", () => {
+      intro.classList.add("is-hidden");
+      document.body.classList.remove("intro-active");
+      setTimeout(() => intro.remove(), 760);
     });
 
     function observeReveals() {
