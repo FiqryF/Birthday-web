@@ -363,6 +363,10 @@
       filter: brightness(1.05);
     }
 
+    #wishForm.is-sending .wish-button {
+      animation: sendPulse 1300ms ease;
+    }
+
     .wish-list {
       display: grid;
       gap: .75rem;
@@ -381,7 +385,7 @@
     }
 
     .wish-card.new {
-      animation: wishArrive 650ms cubic-bezier(.18, .84, .2, 1);
+      animation: wishArrive 1250ms cubic-bezier(.18, .84, .2, 1);
     }
 
     .wish-fly {
@@ -395,58 +399,178 @@
       padding: .85rem;
       box-shadow: 0 18px 46px rgba(64, 43, 71, .26);
       pointer-events: none;
-      animation: wishFly 900ms cubic-bezier(.2, .86, .2, 1) forwards;
+      transform-origin: center;
+      animation: wishFly 2100ms cubic-bezier(.18, .76, .18, 1) forwards;
+    }
+
+    .wish-fly::before,
+    .wish-fly::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(255, 116, 199, .18);
+      pointer-events: none;
+    }
+
+    .wish-fly::after {
+      inset: auto 12px 10px;
+      height: 9px;
+      border: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 116, 199, .34), transparent);
+      filter: blur(5px);
     }
 
     .wish-spark {
       position: fixed;
       z-index: 89;
-      width: 8px;
-      height: 8px;
+      width: var(--size, 8px);
+      height: var(--size, 8px);
       border-radius: 999px;
-      background: var(--chrome);
-      box-shadow: 0 0 18px rgba(255, 116, 199, .75);
+      background: var(--spark-color, var(--chrome));
+      box-shadow: 0 0 18px rgba(255, 116, 199, .75), 0 0 28px rgba(201, 224, 235, .24);
       pointer-events: none;
-      animation: wishSpark 760ms ease-out forwards;
+      animation: wishSpark 1350ms ease-out forwards;
+      animation-delay: var(--delay, 0ms);
+    }
+
+    .wish-burst {
+      position: fixed;
+      z-index: 88;
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      border: 2px solid rgba(255, 116, 199, .8);
+      box-shadow: 0 0 24px rgba(255, 116, 199, .7), 0 0 52px rgba(201, 224, 235, .42);
+      pointer-events: none;
+      animation: wishBurst 1150ms cubic-bezier(.12, .78, .2, 1) forwards;
+    }
+
+    .wish-confetti {
+      position: fixed;
+      z-index: 91;
+      width: var(--w, 8px);
+      height: var(--h, 12px);
+      border-radius: 2px;
+      background: var(--spark-color, var(--chrome));
+      box-shadow: 0 0 16px rgba(255, 116, 199, .42);
+      pointer-events: none;
+      animation: wishConfetti 1550ms cubic-bezier(.13, .76, .28, 1) forwards;
+      animation-delay: var(--delay, 0ms);
+      transform-origin: center;
     }
 
     @keyframes wishArrive {
-      from {
+      0% {
         opacity: 0;
-        transform: translateY(16px) rotate(-1deg);
+        transform: translateY(22px) scale(.96) rotate(-1.5deg);
+        box-shadow: 0 0 0 rgba(255, 116, 199, 0);
       }
 
-      to {
+      54% {
+        opacity: 1;
+        transform: translateY(-4px) scale(1.015) rotate(.4deg);
+        box-shadow: 0 20px 42px rgba(255, 116, 199, .18);
+      }
+
+      100% {
         opacity: 1;
         transform: translateY(0) rotate(0deg);
+        box-shadow: 0 0 0 rgba(255, 116, 199, 0);
       }
     }
 
     @keyframes wishFly {
       0% {
         opacity: 0;
-        transform: translate3d(-50%, 0, 0) scale(.86) rotate(-3deg);
+        filter: blur(2px);
+        transform: translate3d(-50%, -50%, 0) scale(.72) rotate(-8deg);
       }
 
-      18% {
+      12% {
         opacity: 1;
+        filter: blur(0);
+        transform: translate3d(-50%, -50%, 0) scale(1) rotate(-2deg);
+      }
+
+      36% {
+        transform: translate3d(calc(-50% + var(--tx-32)), calc(-50% + var(--ty-32) - 50px), 0) scale(.96) rotate(3deg);
+      }
+
+      68% {
+        opacity: 1;
+        transform: translate3d(calc(-50% + var(--tx-74)), calc(-50% + var(--ty-74) - 28px), 0) scale(.74) rotate(var(--rotate, 5deg));
       }
 
       100% {
         opacity: 0;
-        transform: translate3d(-50%, -145px, 0) scale(1.05) rotate(4deg);
+        filter: blur(1px);
+        transform: translate3d(calc(-50% + var(--tx)), calc(-50% + var(--ty)), 0) scale(.42) rotate(var(--rotate, 5deg));
       }
     }
 
     @keyframes wishSpark {
-      from {
+      0% {
+        opacity: 0;
+        transform: translate3d(0, 0, 0) scale(.2);
+      }
+
+      22% {
         opacity: .9;
         transform: translate3d(0, 0, 0) scale(1);
       }
 
-      to {
+      100% {
         opacity: 0;
         transform: translate3d(var(--x), var(--y), 0) scale(.25);
+      }
+    }
+
+    @keyframes wishBurst {
+      0% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) scale(.2);
+      }
+
+      18% {
+        opacity: .95;
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) scale(9);
+      }
+    }
+
+    @keyframes wishConfetti {
+      0% {
+        opacity: 0;
+        transform: translate3d(-50%, -50%, 0) scale(.35) rotate(0deg);
+      }
+
+      12% {
+        opacity: 1;
+      }
+
+      58% {
+        opacity: 1;
+        transform: translate3d(calc(-50% + var(--x-86)), calc(-50% + var(--y-86)), 0) scale(1) rotate(var(--spin));
+      }
+
+      100% {
+        opacity: 0;
+        transform: translate3d(calc(-50% + var(--x)), calc(-50% + var(--y) + 34px), 0) scale(.82) rotate(calc(var(--spin) + 110deg));
+      }
+    }
+
+    @keyframes sendPulse {
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+
+      45% {
+        transform: translateY(-2px) scale(1.035);
+        box-shadow: 0 20px 42px rgba(255, 116, 199, .38);
       }
     }
 
@@ -782,24 +906,79 @@
     }
 
     function createWishAnimation(text) {
-      const rect = wishInput.getBoundingClientRect();
+      const inputRect = wishInput.getBoundingClientRect();
+      const listRect = wishList.getBoundingClientRect();
+      const startX = inputRect.left + inputRect.width / 2;
+      const startY = inputRect.top + inputRect.height / 2;
+      const targetX = listRect.left + Math.min(listRect.width * .42, 260);
+      const targetY = listRect.top + Math.min(listRect.height * .24, 78);
+      const travelX = targetX - startX;
+      const travelY = targetY - startY;
       const card = document.createElement("div");
       card.className = "wish-fly";
       card.textContent = text.length > 70 ? `${text.slice(0, 70)}...` : text;
-      card.style.left = `${rect.left + rect.width / 2}px`;
-      card.style.top = `${rect.top + rect.height / 2}px`;
+      card.style.left = `${startX}px`;
+      card.style.top = `${startY}px`;
+      card.style.setProperty("--tx", `${travelX}px`);
+      card.style.setProperty("--ty", `${travelY}px`);
+      card.style.setProperty("--tx-32", `${travelX * .32}px`);
+      card.style.setProperty("--ty-32", `${travelY * .32}px`);
+      card.style.setProperty("--tx-74", `${travelX * .74}px`);
+      card.style.setProperty("--ty-74", `${travelY * .74}px`);
+      card.style.setProperty("--rotate", `${travelX > 0 ? 6 : -6}deg`);
       document.body.appendChild(card);
-      setTimeout(() => card.remove(), 930);
+      setTimeout(() => card.remove(), 2200);
 
-      for (let index = 0; index < 10; index += 1) {
+      for (let index = 0; index < 18; index += 1) {
+        const progress = .08 + Math.random() * .82;
+        const arcLift = Math.sin(progress * Math.PI) * 58;
+        const baseX = startX + travelX * progress + (-18 + Math.random() * 36);
+        const baseY = startY + travelY * progress - arcLift + (-14 + Math.random() * 28);
         const spark = document.createElement("span");
         spark.className = "wish-spark";
-        spark.style.left = `${rect.left + rect.width / 2}px`;
-        spark.style.top = `${rect.top + rect.height / 2}px`;
-        spark.style.setProperty("--x", `${-90 + Math.random() * 180}px`);
-        spark.style.setProperty("--y", `${-110 + Math.random() * 50}px`);
+        spark.style.left = `${baseX}px`;
+        spark.style.top = `${baseY}px`;
+        spark.style.setProperty("--x", `${-42 + Math.random() * 84}px`);
+        spark.style.setProperty("--y", `${-42 + Math.random() * 84}px`);
+        spark.style.setProperty("--size", `${4 + Math.random() * 7}px`);
+        spark.style.setProperty("--delay", `${index * 42 + Math.random() * 120}ms`);
+        spark.style.setProperty("--spark-color", index % 3 === 0 ? "var(--pale)" : index % 3 === 1 ? "var(--chrome)" : "var(--lilac)");
         document.body.appendChild(spark);
-        setTimeout(() => spark.remove(), 790);
+        setTimeout(() => spark.remove(), 2300);
+      }
+
+      setTimeout(() => createWishBurst(targetX, targetY), 1180);
+    }
+
+    function createWishBurst(x, y) {
+      const colors = ["var(--chrome)", "var(--lilac)", "var(--pale)", "#fff8ec"];
+      const burst = document.createElement("span");
+      burst.className = "wish-burst";
+      burst.style.left = `${x}px`;
+      burst.style.top = `${y}px`;
+      document.body.appendChild(burst);
+      setTimeout(() => burst.remove(), 1250);
+
+      for (let index = 0; index < 34; index += 1) {
+        const angle = (Math.PI * 2 * index) / 34 + (-.18 + Math.random() * .36);
+        const distance = 72 + Math.random() * 150;
+        const driftX = Math.cos(angle) * distance;
+        const driftY = Math.sin(angle) * distance - 26 + Math.random() * 36;
+        const confetti = document.createElement("span");
+        confetti.className = "wish-confetti";
+        confetti.style.left = `${x}px`;
+        confetti.style.top = `${y}px`;
+        confetti.style.setProperty("--x", `${driftX}px`);
+        confetti.style.setProperty("--y", `${driftY}px`);
+        confetti.style.setProperty("--x-86", `${driftX * .86}px`);
+        confetti.style.setProperty("--y-86", `${driftY * .86}px`);
+        confetti.style.setProperty("--w", `${5 + Math.random() * 8}px`);
+        confetti.style.setProperty("--h", `${8 + Math.random() * 14}px`);
+        confetti.style.setProperty("--delay", `${Math.random() * 120}ms`);
+        confetti.style.setProperty("--spin", `${180 + Math.random() * 620}deg`);
+        confetti.style.setProperty("--spark-color", colors[index % colors.length]);
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 1850);
       }
     }
 
@@ -822,10 +1001,14 @@
         const wishes = getWishes();
         wishes.unshift(wish);
         saveWishes(wishes);
+        wishForm.classList.add("is-sending");
         createWishAnimation(wish);
         wishInput.value = "";
         wishCounter.textContent = `0 / ${wishInput.maxLength}`;
-        renderWishes(true);
+        setTimeout(() => {
+          renderWishes(true);
+          wishForm.classList.remove("is-sending");
+        }, 1450);
       });
     }
   </script>
