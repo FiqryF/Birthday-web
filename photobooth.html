@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Birthday Photobooth</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+    :root {
+      --pale: #C9E0EB;
+      --denim: #7392B5;
+      --lilac: #8350C4;
+      --violet: #402B47;
+      --shadow: #262423;
+      --chrome: #ff74c7;
+      --paper: #f6eddf;
+      --cream: #fff8ec;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 14% 16%, rgba(255, 116, 199, .16), transparent 25rem),
+        radial-gradient(circle at 84% 18%, rgba(201, 224, 235, .14), transparent 24rem),
+        linear-gradient(90deg, rgba(201, 224, 235, .07) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(201, 224, 235, .06) 1px, transparent 1px),
+        linear-gradient(145deg, #262423 0%, #402B47 48%, #1d151f 100%);
+      background-size: auto, auto, 38px 38px, 38px 38px, auto;
+      color: var(--cream);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .font-display {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+
+    .page {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 46px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 24px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      color: var(--pale);
+      text-decoration: none;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      opacity: .9;
+    }
+
+    .back-link svg,
+    .camera-mark svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .camera-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      background: var(--chrome);
+      color: var(--violet);
+      box-shadow: 0 0 34px rgba(255, 116, 199, .52);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, .92fr) minmax(320px, 1.08fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .intro-panel,
+    .studio-panel {
+      border: 1px solid rgba(255, 248, 236, .14);
+      box-shadow: 0 28px 80px rgba(16, 10, 18, .32);
+    }
+
+    .intro-panel {
+      display: grid;
+      align-content: space-between;
+      min-height: 610px;
+      padding: clamp(1.35rem, 4vw, 3rem);
+      background: rgba(64, 43, 71, .78);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .intro-panel::after {
+      content: "";
+      position: absolute;
+      inset: auto -14% -18% 22%;
+      height: 220px;
+      background: radial-gradient(circle, rgba(255, 116, 199, .2), transparent 64%);
+      pointer-events: none;
+    }
+
+    .section-label {
+      margin: 0 0 1rem;
+      color: var(--chrome);
+      font-size: .68rem;
+      font-weight: 900;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 12ch;
+      font-size: clamp(4.3rem, 10vw, 8.2rem);
+      line-height: .82;
+    }
+
+    .intro-copy {
+      position: relative;
+      z-index: 1;
+      max-width: 34rem;
+      color: rgba(201, 224, 235, .92);
+      font-size: .98rem;
+      font-weight: 700;
+      line-height: 1.8;
+    }
+
+    .step-row {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .7rem;
+      margin-top: 2rem;
+    }
+
+    .step {
+      min-height: 86px;
+      padding: .9rem;
+      border: 1px solid rgba(201, 224, 235, .18);
+      background: rgba(255, 248, 236, .06);
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: .38rem;
+      color: var(--pale);
+      font-size: .65rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+
+    .step span {
+      color: rgba(255, 248, 236, .72);
+      font-size: .78rem;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .studio-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 280px;
+      gap: 18px;
+      padding: clamp(1rem, 2.4vw, 1.5rem);
+      background:
+        repeating-linear-gradient(0deg, rgba(64, 43, 71, .035) 0 1px, transparent 1px 10px),
+        linear-gradient(135deg, #fff8ec, #eadbc3);
+      color: var(--violet);
+    }
+
+    .camera-stack {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .camera-view {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      border: 1px solid rgba(64, 43, 71, .18);
+      background:
+        linear-gradient(135deg, rgba(64, 43, 71, .82), rgba(38, 36, 35, .94)),
+        var(--violet);
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1);
+      filter: var(--camera-filter, none);
+    }
+
+    .camera-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 1rem;
+      color: rgba(255, 248, 236, .72);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .camera-view.is-live .camera-placeholder {
+      display: none;
+    }
+
+    .countdown {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: var(--cream);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(5rem, 16vw, 9rem);
+      line-height: 1;
+      text-shadow: 0 0 34px rgba(255, 116, 199, .8);
+      pointer-events: none;
+    }
+
+    .flash {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      background: #fff;
+      pointer-events: none;
+    }
+
+    .flash.is-active {
+      animation: flash 480ms ease;
+    }
+
+    .controls,
+    .filter-grid,
+    .frame-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .65rem;
+    }
+
+    .btn,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      border: 1px solid rgba(64, 43, 71, .18);
+      padding: .75rem 1rem;
+      color: var(--violet);
+      background: rgba(255, 255, 255, .54);
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+    }
+
+    .btn:hover,
+    .chip:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn:disabled {
+      cursor: not-allowed;
+      opacity: .44;
+      transform: none;
+    }
+
+    .btn-primary {
+      background: var(--chrome);
+      box-shadow: 0 15px 30px rgba(255, 116, 199, .26);
+    }
+
+    .btn-pale {
+      background: var(--pale);
+    }
+
+    .btn-lilac {
+      background: var(--lilac);
+      color: #fff;
+    }
+
+    .chip.is-active {
+      background: var(--violet);
+      color: var(--cream);
+      box-shadow: 0 12px 26px rgba(64, 43, 71, .18);
+    }
+
+    .status {
+      min-height: 44px;
+      margin: 0;
+      color: rgba(64, 43, 71, .74);
+      font-size: .84rem;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    .strip-area {
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .strip-shell {
+      display: grid;
+      place-items: center;
+      min-height: 520px;
+      padding: 18px;
+      background: rgba(38, 36, 35, .94);
+      box-shadow: inset 0 0 0 1px rgba(255, 248, 236, .08);
+    }
+
+    canvas {
+      display: block;
+      width: min(100%, 210px);
+      aspect-ratio: 1 / 3;
+      background: #fff8ec;
+      box-shadow: 0 20px 40px rgba(38, 36, 35, .28);
+    }
+
+    .thumbs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .55rem;
+    }
+
+    .thumb {
+      aspect-ratio: 4 / 3;
+      border: 1px solid rgba(64, 43, 71, .16);
+      background: rgba(255, 255, 255, .46);
+      object-fit: cover;
+    }
+
+    .hidden-canvas {
+      display: none;
+    }
+
+    @keyframes flash {
+      0%,
+      100% {
+        opacity: 0;
+      }
+
+      18% {
+        opacity: .92;
+      }
+    }
+
+    @media (max-width: 980px) {
+      .hero,
+      .studio-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .intro-panel {
+        min-height: auto;
+      }
+
+      .step-row {
+        grid-template-columns: 1fr;
+      }
+
+      .strip-shell {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page {
+        width: min(100% - 22px, 1180px);
+        padding-top: 18px;
+      }
+
+      .topbar {
+        margin-bottom: 16px;
+      }
+
+      .studio-panel {
+        padding: .85rem;
+      }
+
+      .controls,
+      .filter-grid,
+      .frame-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .btn,
+      .chip {
+        padding-inline: .7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <nav class="topbar" aria-label="Navigasi photobooth">
+      <a class="back-link" href="index.html">
+        <svg aria-hidden="true" viewBox="0 0 24 24">
+          <path d="m15 18-6-6 6-6"></path>
+        </svg>
+        kembali
+      </a>
+      <span class="camera-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24">
+          <path d="M14.5 4.5 13 3H9L7.5 4.5H4.75A2.75 2.75 0 0 0 2 7.25v10A2.75 2.75 0 0 0 4.75 20h14.5A2.75 2.75 0 0 0 22 17.25v-10a2.75 2.75 0 0 0-2.75-2.75H14.5Z"></path>
+          <circle cx="12" cy="12.25" r="4.25"></circle>
+        </svg>
+      </span>
+    </nav>
+
+    <section class="hero" aria-label="Birthday photobooth">
+      <div class="intro-panel">
+        <div>
+          <p class="section-label">birthday photobooth</p>
+          <h1 class="font-display">Take three frames.</h1>
+        </div>
+        <div>
+          <p class="intro-copy">
+            Pilih filter kamera, ambil 3 foto dengan countdown, lalu pilih frame strip yang paling cocok sebelum download.
+          </p>
+          <div class="step-row">
+            <div class="step">
+              <strong>01 camera</strong>
+              <span>Aktifkan kamera dan pilih filter.</span>
+            </div>
+            <div class="step">
+              <strong>02 session</strong>
+              <span>Ambil 3 foto berurutan.</span>
+            </div>
+            <div class="step">
+              <strong>03 frame</strong>
+              <span>Pilih frame lalu download strip.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="studio-panel">
+        <section class="camera-stack" aria-label="Kamera photobooth">
+          <div id="cameraView" class="camera-view">
+            <video id="video" autoplay playsinline muted></video>
+            <div class="camera-placeholder">Camera preview</div>
+            <div id="countdown" class="countdown" aria-live="polite"></div>
+            <div id="flash" class="flash"></div>
+          </div>
+
+          <p id="status" class="status">Klik start camera. Browser akan meminta izin kamera.</p>
+
+          <div class="controls">
+            <button id="startCamera" class="btn btn-pale" type="button">start camera</button>
+            <button id="capture" class="btn btn-primary" type="button" disabled>take photo</button>
+            <button id="retake" class="btn" type="button">retake</button>
+          </div>
+
+          <div class="filter-grid" aria-label="Pilih filter kamera">
+            <button class="chip is-active" type="button" data-filter="clean">clean</button>
+            <button class="chip" type="button" data-filter="soft">soft glow</button>
+            <button class="chip" type="button" data-filter="nocturne">nocturne</button>
+            <button class="chip" type="button" data-filter="chrome">chrome pop</button>
+          </div>
+
+          <div id="thumbs" class="thumbs" aria-label="Preview foto yang sudah diambil"></div>
+        </section>
+
+        <section class="strip-area" aria-label="Hasil photobooth">
+          <div class="strip-shell">
+            <canvas id="strip" width="600" height="1800"></canvas>
+          </div>
+
+          <div class="frame-grid" aria-label="Pilih frame foto">
+            <button class="chip is-active" type="button" data-frame="midnight">midnight</button>
+            <button class="chip" type="button" data-frame="ribbon">ribbon</button>
+            <button class="chip" type="button" data-frame="paper">paper</button>
+            <button class="chip" type="button" data-frame="chrome">chrome</button>
+          </div>
+
+          <button id="download" class="btn btn-lilac" type="button" disabled>download strip</button>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <canvas id="captureCanvas" class="hidden-canvas" width="960" height="720"></canvas>
+
+  <script>
+    const video = document.querySelector("#video");
+    const cameraView = document.querySelector("#cameraView");
+    const startCamera = document.querySelector("#startCamera");
+    const captureButton = document.querySelector("#capture");
+    const retakeButton = document.querySelector("#retake");
+    const downloadButton = document.querySelector("#download");
+    const statusText = document.querySelector("#status");
+    const countdown = document.querySelector("#countdown");
+    const flash = document.querySelector("#flash");
+    const strip = document.querySelector("#strip");
+    const stripContext = strip.getContext("2d");
+    const captureCanvas = document.querySelector("#captureCanvas");
+    const captureContext = captureCanvas.getContext("2d");
+    const thumbs = document.querySelector("#thumbs");
+    const filterButtons = document.querySelectorAll("[data-filter]");
+    const frameButtons = document.querySelectorAll("[data-frame]");
+    const filters = {
+      clean: "none",
+      soft: "brightness(1.08) contrast(.96) saturate(1.08)",
+      nocturne: "contrast(1.08) saturate(.84) sepia(.12) hue-rotate(248deg) brightness(.86)",
+      chrome: "contrast(1.08) saturate(1.35) brightness(1.04) hue-rotate(318deg)"
+    };
+    let stream = null;
+    let currentFilter = "clean";
+    let currentFrame = "midnight";
+    let photos = [];
+    let isCapturing = false;
+
+    drawStrip();
+
+    startCamera.addEventListener("click", openCamera);
+    captureButton.addEventListener("click", captureWithCountdown);
+    retakeButton.addEventListener("click", () => {
+      photos = [];
+      renderThumbs();
+      drawStrip();
+      downloadButton.disabled = true;
+      captureButton.disabled = !stream;
+      statusText.textContent = stream ? "Sesi diulang. Ambil 3 foto baru." : "Klik start camera untuk mulai lagi.";
+    });
+    downloadButton.addEventListener("click", downloadStrip);
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        currentFilter = button.dataset.filter;
+        filterButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+        video.style.setProperty("--camera-filter", filters[currentFilter]);
+      });
+    });
+
+    frameButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        currentFrame = button.dataset.frame;
+        frameButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+        drawStrip();
+      });
+    });
+
+    async function openCamera() {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 960 } },
+          audio: false
+        });
+        video.srcObject = stream;
+        cameraView.classList.add("is-live");
+        captureButton.disabled = false;
+        statusText.textContent = "Kamera siap. Pilih filter, lalu ambil foto pertama.";
+      } catch (error) {
+        statusText.textContent = "Kamera belum bisa dibuka. Pastikan izin kamera aktif dan halaman dibuka dari localhost/HTTPS.";
+      }
+    }
+
+    async function captureWithCountdown() {
+      if (!stream || isCapturing || photos.length >= 3) return;
+      isCapturing = true;
+      captureButton.disabled = true;
+
+      for (const number of ["3", "2", "1"]) {
+        countdown.textContent = number;
+        await wait(620);
+      }
+
+      countdown.textContent = "";
+      flash.classList.remove("is-active");
+      void flash.offsetWidth;
+      flash.classList.add("is-active");
+      photos.push(takePhoto());
+      renderThumbs();
+      drawStrip();
+
+      if (photos.length >= 3) {
+        downloadButton.disabled = false;
+        statusText.textContent = "Tiga foto sudah lengkap. Pilih frame yang cocok lalu download.";
+      } else {
+        statusText.textContent = `${photos.length} dari 3 foto tersimpan. Lanjut ambil foto berikutnya.`;
+        captureButton.disabled = false;
+      }
+
+      isCapturing = false;
+    }
+
+    function takePhoto() {
+      const videoRatio = video.videoWidth / video.videoHeight || 4 / 3;
+      const targetRatio = captureCanvas.width / captureCanvas.height;
+      let sx = 0;
+      let sy = 0;
+      let sw = video.videoWidth;
+      let sh = video.videoHeight;
+
+      if (videoRatio > targetRatio) {
+        sw = video.videoHeight * targetRatio;
+        sx = (video.videoWidth - sw) / 2;
+      } else {
+        sh = video.videoWidth / targetRatio;
+        sy = (video.videoHeight - sh) / 2;
+      }
+
+      captureContext.save();
+      captureContext.filter = filters[currentFilter];
+      captureContext.translate(captureCanvas.width, 0);
+      captureContext.scale(-1, 1);
+      captureContext.drawImage(video, sx, sy, sw, sh, 0, 0, captureCanvas.width, captureCanvas.height);
+      captureContext.restore();
+      captureContext.filter = "none";
+      return captureCanvas.toDataURL("image/png");
+    }
+
+    function renderThumbs() {
+      thumbs.innerHTML = "";
+      photos.forEach((photo, index) => {
+        const image = document.createElement("img");
+        image.className = "thumb";
+        image.src = photo;
+        image.alt = `Foto photobooth ${index + 1}`;
+        thumbs.appendChild(image);
+      });
+    }
+
+    function drawStrip() {
+      const width = strip.width;
+      const height = strip.height;
+      const layout = getFrameLayout(currentFrame, width, height);
+      stripContext.clearRect(0, 0, width, height);
+      stripContext.fillStyle = layout.background;
+      stripContext.fillRect(0, 0, width, height);
+      drawFrameDecor(layout, width, height);
+
+      const margin = layout.margin;
+      const gap = layout.gap;
+      const photoWidth = width - margin * 2;
+      const photoHeight = 420;
+      const startY = layout.top;
+
+      for (let index = 0; index < 3; index += 1) {
+        const x = margin;
+        const y = startY + index * (photoHeight + gap);
+        stripContext.fillStyle = layout.photoBack;
+        stripContext.fillRect(x - 10, y - 10, photoWidth + 20, photoHeight + 20);
+        stripContext.fillStyle = "rgba(64, 43, 71, .14)";
+        stripContext.fillRect(x, y, photoWidth, photoHeight);
+
+        if (photos[index]) {
+          const image = new Image();
+          image.onload = () => {
+            stripContext.save();
+            stripContext.beginPath();
+            stripContext.rect(x, y, photoWidth, photoHeight);
+            stripContext.clip();
+            stripContext.drawImage(image, x, y, photoWidth, photoHeight);
+            stripContext.restore();
+            drawPhotoLabel(layout, width, height);
+          };
+          image.src = photos[index];
+        } else {
+          stripContext.fillStyle = layout.placeholder;
+          stripContext.font = "900 26px Inter, sans-serif";
+          stripContext.textAlign = "center";
+          stripContext.fillText(`PHOTO ${index + 1}`, width / 2, y + photoHeight / 2);
+        }
+      }
+
+      drawPhotoLabel(layout, width, height);
+    }
+
+    function getFrameLayout(frame, width, height) {
+      const layouts = {
+        midnight: {
+          background: "#241a27",
+          photoBack: "#fff8ec",
+          accent: "#ff74c7",
+          secondary: "#8350C4",
+          text: "#fff8ec",
+          placeholder: "rgba(255, 248, 236, .5)",
+          margin: 54,
+          top: 108,
+          gap: 54,
+          label: "BIRTHDAY NOCTURNE"
+        },
+        ribbon: {
+          background: "#fff8ec",
+          photoBack: "#402B47",
+          accent: "#7392B5",
+          secondary: "#ff74c7",
+          text: "#402B47",
+          placeholder: "rgba(64, 43, 71, .42)",
+          margin: 50,
+          top: 112,
+          gap: 50,
+          label: "AURORA 24 / 06 / 26"
+        },
+        paper: {
+          background: "#f6eddf",
+          photoBack: "#ffffff",
+          accent: "#402B47",
+          secondary: "#C9E0EB",
+          text: "#402B47",
+          placeholder: "rgba(64, 43, 71, .36)",
+          margin: 60,
+          top: 116,
+          gap: 58,
+          label: "THREE LITTLE MEMORIES"
+        },
+        chrome: {
+          background: "#402B47",
+          photoBack: "#ff74c7",
+          accent: "#C9E0EB",
+          secondary: "#ff74c7",
+          text: "#fff8ec",
+          placeholder: "rgba(255, 248, 236, .5)",
+          margin: 48,
+          top: 104,
+          gap: 48,
+          label: "MYSTIC BIRTHDAY"
+        }
+      };
+      return layouts[frame] || layouts.midnight;
+    }
+
+    function drawFrameDecor(layout, width, height) {
+      stripContext.fillStyle = layout.accent;
+      stripContext.fillRect(0, 0, width, 26);
+      stripContext.fillRect(0, height - 26, width, 26);
+      stripContext.fillStyle = layout.secondary;
+      stripContext.fillRect(0, 0, 34, height);
+      stripContext.fillRect(width - 34, 0, 34, height);
+
+      stripContext.save();
+      stripContext.globalAlpha = .34;
+      for (let y = 78; y < height - 120; y += 120) {
+        drawStar(width - 52, y, 16, layout.accent);
+        drawStar(52, y + 48, 12, layout.secondary);
+      }
+      stripContext.restore();
+    }
+
+    function drawPhotoLabel(layout, width, height) {
+      stripContext.fillStyle = layout.text;
+      stripContext.textAlign = "center";
+      stripContext.font = "900 24px Inter, sans-serif";
+      stripContext.letterSpacing = "4px";
+      stripContext.fillText(layout.label, width / 2, height - 72);
+      stripContext.font = "700 18px Georgia, serif";
+      stripContext.fillText("keep this tiny night", width / 2, height - 42);
+    }
+
+    function drawStar(x, y, radius, color) {
+      stripContext.save();
+      stripContext.translate(x, y);
+      stripContext.rotate(Math.PI / 4);
+      stripContext.fillStyle = color;
+      stripContext.beginPath();
+      stripContext.moveTo(0, -radius);
+      stripContext.lineTo(radius * .24, -radius * .24);
+      stripContext.lineTo(radius, 0);
+      stripContext.lineTo(radius * .24, radius * .24);
+      stripContext.lineTo(0, radius);
+      stripContext.lineTo(-radius * .24, radius * .24);
+      stripContext.lineTo(-radius, 0);
+      stripContext.lineTo(-radius * .24, -radius * .24);
+      stripContext.closePath();
+      stripContext.fill();
+      stripContext.restore();
+    }
+
+    function downloadStrip() {
+      const link = document.createElement("a");
+      link.download = "birthday-photobooth-strip.png";
+      link.href = strip.toDataURL("image/png");
+      link.click();
+    }
+
+    function wait(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+  </script>
+</body>
+</html>
