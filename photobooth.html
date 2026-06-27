@@ -585,17 +585,51 @@
     });
 
     async function openCamera() {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 960 } },
-          audio: false
-        });
-        video.srcObject = stream;
-        cameraView.classList.add("is-live");
-        captureButton.disabled = false;
-        statusText.textContent = "Kamera siap. Pilih filter, lalu ambil foto pertama.";
-      } catch (error) {
-        statusText.textContent = "Kamera belum bisa dibuka. Pastikan izin kamera aktif dan halaman dibuka dari localhost/HTTPS.";
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        statusText.textContent = "Browser ini belum mendukung akses kamera. Coba buka dari Chrome/Edge terbaru.";
+        return;
+      }
+
+      if (!window.isSecureContext) {
+        statusText.textContent = "Kamera hanya bisa dibuka dari localhost, 127.0.0.1, atau HTTPS. Jalankan lewat Live Server dulu.";
+        return;
+      }
+
+      startCamera.disabled = true;
+      statusText.textContent = "Membuka kamera...";
+
+      const attempts = [
+        { video: { facingMode: "user", width: { ideal: 1280 }, height: { ideal: 960 } }, audio: false },
+        { video: { facingMode: "user" }, audio: false },
+        { video: true, audio: false }
+      ];
+
+      for (const constraints of attempts) {
+        try {
+          if (stream) {
+            stream.getTracks().forEach((track) => track.stop());
+          }
+
+          stream = await navigator.mediaDevices.getUserMedia(constraints);
+          video.srcObject = stream;
+          await video.play();
+          cameraView.classList.add("is-live");
+          captureButton.disabled = false;
+          startCamera.textContent = "camera ready";
+          statusText.textContent = "Kamera siap. Pilih filter, lalu ambil foto pertama.";
+          return;
+        } catch (error) {
+          if (error.name === "NotAllowedError" || error.name === "SecurityError") {
+            statusText.textContent = "Izin kamera ditolak. Klik ikon kamera/gembok di address bar, izinkan Camera, lalu refresh.";
+            startCamera.disabled = false;
+            return;
+          }
+
+          if (constraints === attempts[attempts.length - 1]) {
+            statusText.textContent = "Kamera belum bisa dibuka. Tutup aplikasi lain yang memakai kamera, lalu coba lagi.";
+            startCamera.disabled = false;
+          }
+        }
       }
     }
 
