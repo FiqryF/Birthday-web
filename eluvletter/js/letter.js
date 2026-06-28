@@ -101,48 +101,63 @@ function playOriginalBirthdayTheme() {
 	birthdayMusicStarted = true;
 	$('#music_btn').css("display", "block");
 
-	const melody = [659.25, 587.33, 523.25, 587.33, 783.99, 739.99, 659.25, 523.25];
-	const bass = [130.81, 164.81, 196.00, 174.61];
+	const melody = [523.25, 659.25, 783.99, 739.99, 659.25, 587.33, 659.25, 880.00, 783.99, 659.25, 587.33, 523.25];
+	const harmony = [329.63, 392.00, 440.00, 392.00, 349.23, 392.00];
+	const bass = [130.81, 196.00, 174.61, 164.81, 146.83, 196.00];
 	let step = 0;
 
 	function loop() {
 		const now = birthdayAudioContext.currentTime + 0.04;
 		const melodyNote = melody[step % melody.length];
-		const bassNote = bass[Math.floor(step / 2) % bass.length];
+		const harmonyNote = harmony[Math.floor(step / 2) % harmony.length];
+		const bassNote = bass[Math.floor(step / 3) % bass.length];
 
 		playTone(melodyNote, now, 0.92, {
-			type: "triangle",
-			volume: 0.09,
-			filter: 2600
-		});
-		playTone(melodyNote * 2, now + 0.08, 0.38, {
 			type: "sine",
-			volume: 0.03,
-			filter: 3600
+			volume: 0.082,
+			filter: 3200
 		});
-		if (step % 4 === 3) {
-			playTone(melodyNote * 3, now + 0.18, 0.32, {
+
+		playTone(melodyNote * 2, now + 0.16, 0.46, {
+			type: "sine",
+			volume: 0.024,
+			filter: 5200
+		});
+
+		playTone(harmonyNote, now + 0.02, 1.45, {
+			type: "triangle",
+			volume: 0.034,
+			filter: 1400
+		});
+		playTone(harmonyNote * 1.5, now + 0.34, 0.82, {
+			type: "sine",
+			volume: 0.018,
+			filter: 2400
+		});
+
+		if (step % 6 === 5) {
+			playTone(melodyNote * 2.5, now + 0.22, 0.52, {
 				type: "sine",
-				volume: 0.022,
-				filter: 4800
+				volume: 0.018,
+				filter: 6200
 			});
 		}
 
-		if (step % 2 === 0) {
-			playTone(bassNote, now, 1.8, {
+		if (step % 3 === 0) {
+			playTone(bassNote, now, 2.6, {
 				type: "sine",
-				volume: 0.07,
+				volume: 0.064,
 				filter: 700
 			});
-			playTone(bassNote * 2, now, 1.8, {
+			playTone(bassNote * 2, now + 0.08, 2.25, {
 				type: "sine",
-				volume: 0.028,
+				volume: 0.024,
 				filter: 900
 			});
-			playTone(bassNote * 4, now + 0.04, 1.65, {
+			playTone(bassNote * 4, now + 0.12, 1.55, {
 				type: "triangle",
-				volume: 0.026,
-				filter: 1200
+				volume: 0.018,
+				filter: 1500
 			});
 		}
 
@@ -150,7 +165,7 @@ function playOriginalBirthdayTheme() {
 	}
 
 	loop();
-	birthdayMusicTimer = setInterval(loop, 820);
+	birthdayMusicTimer = setInterval(loop, 1040);
 }
 
 function playBirthdayMusic() {
