@@ -93,6 +93,18 @@
     });
   };
 
+  MiniQuery.prototype.addClass = function (className) {
+    return this.each(function () {
+      this.classList.add(className);
+    });
+  };
+
+  MiniQuery.prototype.removeClass = function (className) {
+    return this.each(function () {
+      this.classList.remove(className);
+    });
+  };
+
   MiniQuery.prototype.fadeIn = function () {
     return this.each(function () {
       this.style.display = "block";

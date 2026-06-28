@@ -183,7 +183,12 @@ function playBirthdayMusic() {
 	playOriginalBirthdayTheme();
 }
 
-$("#open").click(function (event) {
+function flipToSeal(event) {
+	event.preventDefault();
+	$('#contact').removeClass('is-addressed');
+}
+
+function openEnvelope(event) {
 	event.preventDefault();
 	unlockBirthdayAudio();
 	document.getElementById('content').classList.add('is-open');
@@ -206,4 +211,8 @@ $("#open").click(function (event) {
 		$('#open').find("span").eq(0).css('background-position', "0 -150px");
 		envelope_opened = true;
 	}
-});
+}
+
+$("#contact > form.flip > .front").click(flipToSeal);
+$("#open").click(openEnvelope);
+$("#lid").click(openEnvelope);

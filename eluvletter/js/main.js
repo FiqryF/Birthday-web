@@ -47,9 +47,7 @@ window.onload = function () {
     $('#music').attr('src', result.bgm);
     $('#envelope').fadeIn('slow');
     $('.heart').fadeOut('fast');
-    let currentUrl = window.location.href;
-    let firstIndex = currentUrl.indexOf("#");
-    if (firstIndex <= 0) window.location.href = currentUrl + "#contact";
+    $('#contact').addClass('is-addressed');
     let contact = $('#contact');
     let mtop = Math.max(40, (window.innerHeight - contact.height()) * 0.5 + envelopeOffsetY);
     contact.css('margin-top', mtop + 'px');
