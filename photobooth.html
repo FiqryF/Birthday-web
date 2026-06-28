@@ -89,8 +89,7 @@
       opacity: 1;
     }
 
-    .back-link svg,
-    .camera-mark svg {
+    .back-link svg {
       width: 20px;
       height: 20px;
       stroke: currentColor;
@@ -98,18 +97,6 @@
       fill: none;
       stroke-linecap: round;
       stroke-linejoin: round;
-    }
-
-    .camera-mark {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 46px;
-      height: 46px;
-      border-radius: 999px;
-      background: var(--chrome);
-      color: var(--violet);
-      box-shadow: 0 14px 34px rgba(255, 116, 199, .34), 0 0 34px rgba(255, 116, 199, .42);
     }
 
     .photobooth-flow {
@@ -124,33 +111,27 @@
     }
 
     .flow-head {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
       gap: 1rem;
       min-height: 260px;
       padding: clamp(1.35rem, 4vw, 3rem);
       background:
-        linear-gradient(135deg, rgba(64, 43, 71, .92), rgba(38, 36, 35, .88)),
-        radial-gradient(circle at 84% 18%, rgba(255, 116, 199, .26), transparent 18rem);
+        linear-gradient(135deg, rgba(64, 43, 71, .94), rgba(38, 36, 35, .9)),
+        linear-gradient(90deg, rgba(201, 224, 235, .06) 1px, transparent 1px),
+        linear-gradient(0deg, rgba(201, 224, 235, .05) 1px, transparent 1px);
+      background-size: auto, 38px 38px, 38px 38px;
       overflow: hidden;
       position: relative;
-    }
-
-    .flow-head::before {
-      content: "";
-      position: absolute;
-      inset: 18px;
-      border: 1px solid rgba(201, 224, 235, .14);
-      pointer-events: none;
     }
 
     .flow-head::after {
       content: "";
       position: absolute;
-      inset: auto -9% -22% 36%;
-      height: 260px;
-      background: radial-gradient(circle, rgba(255, 116, 199, .24), transparent 64%);
+      inset: auto 0 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 116, 199, .65), rgba(201, 224, 235, .46), transparent);
       pointer-events: none;
     }
 
@@ -184,13 +165,13 @@
     .phase-pills {
       position: relative;
       z-index: 1;
-      display: flex;
-      flex-wrap: wrap;
+      display: grid;
       gap: .6rem;
     }
 
     .phase-pill {
       border: 1px solid rgba(201, 224, 235, .24);
+      border-radius: 8px;
       background: rgba(255, 248, 236, .07);
       color: rgba(255, 248, 236, .62);
       padding: .82rem .95rem;
@@ -224,12 +205,12 @@
     }
 
     .stage-title {
-      display: flex;
-      align-items: end;
-      justify-content: space-between;
+      display: grid;
+      justify-items: center;
       gap: 1rem;
       border-bottom: 1px solid rgba(64, 43, 71, .12);
       padding-bottom: 1.15rem;
+      text-align: center;
     }
 
     .stage-title h2 {
@@ -250,9 +231,10 @@
 
     .session-layout {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 210px;
-      gap: 18px;
-      align-items: start;
+      grid-template-columns: minmax(0, 820px);
+      justify-content: center;
+      gap: 16px;
+      align-items: center;
     }
 
     .session-layout > *,
@@ -264,15 +246,17 @@
 
     .template-layout {
       display: grid;
-      grid-template-columns: minmax(220px, 290px) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 300px) minmax(0, 440px);
       gap: 18px;
-      align-items: start;
+      justify-content: center;
+      align-items: center;
     }
 
     .camera-stack {
       display: grid;
       gap: 14px;
       align-content: start;
+      justify-items: center;
     }
 
     .camera-view {
@@ -280,9 +264,10 @@
       overflow: hidden;
       aspect-ratio: 4 / 3;
       max-height: min(68vh, 620px);
+      width: min(100%, 760px);
       border: 10px solid rgba(255, 248, 236, .76);
       background:
-        linear-gradient(135deg, rgba(64, 43, 71, .82), rgba(38, 36, 35, .94)),
+        linear-gradient(135deg, rgba(64, 43, 71, .96), rgba(38, 36, 35, .96)),
         var(--violet);
       box-shadow: 0 24px 52px rgba(64, 43, 71, .18), inset 0 0 0 1px rgba(64, 43, 71, .3);
     }
@@ -293,8 +278,8 @@
       inset: 0;
       z-index: 2;
       background:
-        linear-gradient(90deg, rgba(255, 255, 255, .08), transparent 18%, transparent 82%, rgba(255, 255, 255, .08)),
-        linear-gradient(0deg, rgba(64, 43, 71, .2), transparent 28%, transparent 72%, rgba(64, 43, 71, .2));
+        linear-gradient(90deg, rgba(255, 255, 255, .05), transparent 18%, transparent 82%, rgba(255, 255, 255, .05)),
+        linear-gradient(0deg, rgba(64, 43, 71, .12), transparent 28%, transparent 72%, rgba(64, 43, 71, .12));
       pointer-events: none;
     }
 
@@ -319,9 +304,7 @@
       letter-spacing: .18em;
       text-align: center;
       text-transform: uppercase;
-      background:
-        radial-gradient(circle at 50% 46%, rgba(255, 116, 199, .22), transparent 9rem),
-        linear-gradient(135deg, rgba(64, 43, 71, .84), rgba(38, 36, 35, .96));
+      background: #2f2532;
     }
 
     .camera-view.is-live .camera-placeholder {
@@ -359,12 +342,15 @@
       display: flex;
       flex-wrap: wrap;
       gap: .65rem;
+      justify-content: center;
+      width: min(100%, 760px);
     }
 
     .filter-grid,
     .frame-grid {
       padding: .8rem;
       border: 1px solid rgba(64, 43, 71, .12);
+      border-radius: 8px;
       background: rgba(255, 255, 255, .34);
       box-shadow: inset 0 0 0 1px rgba(255, 248, 236, .32);
     }
@@ -376,6 +362,7 @@
       justify-content: center;
       min-height: 44px;
       border: 1px solid rgba(64, 43, 71, .16);
+      border-radius: 8px;
       padding: .75rem 1rem;
       color: var(--violet);
       background: rgba(255, 255, 255, .58);
@@ -423,8 +410,10 @@
 
     .status {
       min-height: 44px;
+      width: min(100%, 760px);
       margin: 0;
       border-left: 4px solid var(--chrome);
+      border-radius: 8px;
       background: rgba(255, 255, 255, .38);
       color: var(--ink-soft);
       padding: .8rem .95rem;
@@ -437,13 +426,16 @@
       display: grid;
       gap: 14px;
       align-content: start;
+      justify-items: center;
     }
 
     .strip-shell {
       display: grid;
       place-items: center;
       min-height: 520px;
+      width: min(100%, 300px);
       padding: 18px;
+      border-radius: 8px;
       background:
         linear-gradient(90deg, rgba(201, 224, 235, .06) 1px, transparent 1px),
         linear-gradient(0deg, rgba(201, 224, 235, .05) 1px, transparent 1px),
@@ -456,6 +448,7 @@
       display: block;
       width: min(100%, 210px);
       aspect-ratio: 1 / 3;
+      border-radius: 4px;
       background: #fff8ec;
       box-shadow: 0 20px 40px rgba(38, 36, 35, .3);
     }
@@ -463,6 +456,7 @@
     .thumbs {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      width: min(100%, 760px);
       gap: .55rem;
       min-width: 0;
       overflow: hidden;
@@ -470,7 +464,7 @@
     }
 
     .session-layout .thumbs {
-      grid-template-columns: 1fr;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .thumb {
@@ -480,9 +474,63 @@
       max-width: 100%;
       aspect-ratio: 4 / 3;
       border: 7px solid rgba(255, 248, 236, .92);
+      border-radius: 7px;
       background: rgba(255, 255, 255, .46);
       box-shadow: 0 14px 30px rgba(64, 43, 71, .14);
       object-fit: cover;
+    }
+
+    .thumb-button {
+      display: block;
+      width: 100%;
+      border: 0;
+      padding: 0;
+      background: transparent;
+      cursor: zoom-in;
+    }
+
+    .preview-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: rgba(32, 23, 35, .78);
+      backdrop-filter: blur(10px);
+    }
+
+    .preview-modal[hidden] {
+      display: none;
+    }
+
+    .preview-card {
+      display: grid;
+      gap: 14px;
+      width: min(520px, 100%);
+      padding: 14px;
+      border: 1px solid rgba(255, 248, 236, .18);
+      border-radius: 10px;
+      background:
+        repeating-linear-gradient(0deg, rgba(64, 43, 71, .035) 0 1px, transparent 1px 10px),
+        linear-gradient(135deg, #fff8ec, #eadbc3);
+      box-shadow: 0 28px 80px rgba(16, 10, 18, .42);
+    }
+
+    .preview-card img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      border: 8px solid rgba(255, 248, 236, .95);
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--violet);
+    }
+
+    .preview-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .65rem;
     }
 
     .hidden-canvas {
@@ -514,15 +562,15 @@
       }
 
       .flow-head {
+        justify-items: start;
+      }
+
+      .flow-head {
         min-height: auto;
       }
 
       .strip-area {
         order: -1;
-      }
-
-      .session-layout .thumbs {
-        grid-template-columns: repeat(3, 1fr);
       }
 
       .strip-shell {
@@ -565,6 +613,10 @@
         text-align: center;
       }
 
+      .phase-pills {
+        width: 100%;
+      }
+
       .stage-title {
         display: grid;
       }
@@ -572,6 +624,7 @@
       .camera-view {
         aspect-ratio: 3 / 4;
         max-height: 64vh;
+        border-width: 7px;
       }
 
       .controls,
@@ -579,6 +632,11 @@
       .frame-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
+      }
+
+      .filter-grid,
+      .frame-grid {
+        padding: .55rem;
       }
 
       .btn,
@@ -592,6 +650,10 @@
       canvas {
         width: min(58vw, 210px);
       }
+
+      .thumb {
+        border-width: 5px;
+      }
     }
   </style>
 </head>
@@ -604,12 +666,6 @@
         </svg>
         kembali
       </a>
-      <span class="camera-mark" aria-hidden="true">
-        <svg viewBox="0 0 24 24">
-          <path d="M14.5 4.5 13 3H9L7.5 4.5H4.75A2.75 2.75 0 0 0 2 7.25v10A2.75 2.75 0 0 0 4.75 20h14.5A2.75 2.75 0 0 0 22 17.25v-10a2.75 2.75 0 0 0-2.75-2.75H14.5Z"></path>
-          <circle cx="12" cy="12.25" r="4.25"></circle>
-        </svg>
-      </span>
     </nav>
 
     <section class="photobooth-flow" aria-label="Birthday photobooth">
@@ -681,6 +737,7 @@
 
           <section class="camera-stack" aria-label="Kontrol template">
             <p id="templateStatus" class="status">Tiga foto sudah siap. Pilih frame lalu download.</p>
+            <div id="templateThumbs" class="thumbs" aria-label="Preview foto di photostrip"></div>
             <div class="frame-grid" aria-label="Pilih frame foto">
               <button class="chip is-active" type="button" data-frame="midnight">midnight</button>
               <button class="chip" type="button" data-frame="ribbon">ribbon</button>
@@ -698,6 +755,17 @@
     </section>
   </main>
 
+  <div id="photoPreviewModal" class="preview-modal" hidden>
+    <div class="preview-card" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+      <p id="previewTitle" class="section-label">preview foto</p>
+      <img id="photoPreviewImage" alt="Preview foto photobooth" />
+      <div class="preview-actions">
+        <button id="retakeSelected" class="btn btn-primary" type="button">retake foto ini</button>
+        <button id="closePreview" class="btn" type="button">tutup</button>
+      </div>
+    </div>
+  </div>
+
   <canvas id="captureCanvas" class="hidden-canvas" width="960" height="720"></canvas>
 
   <script>
@@ -714,6 +782,10 @@
     const downloadButton = document.querySelector("#download");
     const statusText = document.querySelector("#status");
     const templateStatus = document.querySelector("#templateStatus");
+    const photoPreviewModal = document.querySelector("#photoPreviewModal");
+    const photoPreviewImage = document.querySelector("#photoPreviewImage");
+    const retakeSelected = document.querySelector("#retakeSelected");
+    const closePreview = document.querySelector("#closePreview");
     const countdown = document.querySelector("#countdown");
     const flash = document.querySelector("#flash");
     const strip = document.querySelector("#strip");
@@ -721,6 +793,7 @@
     const captureCanvas = document.querySelector("#captureCanvas");
     const captureContext = captureCanvas.getContext("2d");
     const thumbs = document.querySelector("#thumbs");
+    const templateThumbs = document.querySelector("#templateThumbs");
     const filterButtons = document.querySelectorAll("[data-filter]");
     const frameButtons = document.querySelectorAll("[data-frame]");
     const filters = {
@@ -734,6 +807,8 @@
     let currentFrame = "midnight";
     let photos = [];
     let isCapturing = false;
+    let previewIndex = -1;
+    let replacingIndex = -1;
 
     drawStrip();
 
@@ -742,6 +817,11 @@
     retakeButton.addEventListener("click", resetSession);
     backToSession.addEventListener("click", resetSession);
     downloadButton.addEventListener("click", downloadStrip);
+    closePreview.addEventListener("click", closePhotoPreview);
+    retakeSelected.addEventListener("click", retakePreviewPhoto);
+    photoPreviewModal.addEventListener("click", (event) => {
+      if (event.target === photoPreviewModal) closePhotoPreview();
+    });
 
     filterButtons.forEach((button) => {
       button.addEventListener("click", () => {
@@ -809,7 +889,7 @@
     }
 
     async function captureWithCountdown() {
-      if (!stream || isCapturing || photos.length >= 3) return;
+      if (!stream || isCapturing || (photos.length >= 3 && replacingIndex < 0)) return;
       isCapturing = true;
       captureButton.disabled = true;
 
@@ -822,7 +902,12 @@
       flash.classList.remove("is-active");
       void flash.offsetWidth;
       flash.classList.add("is-active");
-      photos.push(takePhoto());
+      if (replacingIndex >= 0) {
+        photos[replacingIndex] = takePhoto();
+        replacingIndex = -1;
+      } else {
+        photos.push(takePhoto());
+      }
       renderThumbs();
       drawStrip();
 
@@ -842,6 +927,9 @@
 
     function resetSession() {
       photos = [];
+      replacingIndex = -1;
+      previewIndex = -1;
+      closePhotoPreview();
       renderThumbs();
       drawStrip();
       downloadButton.disabled = true;
@@ -888,13 +976,48 @@
 
     function renderThumbs() {
       thumbs.innerHTML = "";
+      templateThumbs.innerHTML = "";
       photos.forEach((photo, index) => {
+        thumbs.appendChild(createThumbButton(photo, index));
+        templateThumbs.appendChild(createThumbButton(photo, index));
+      });
+    }
+
+    function createThumbButton(photo, index) {
+        const button = document.createElement("button");
+        button.className = "thumb-button";
+        button.type = "button";
+        button.setAttribute("aria-label", `Lihat preview foto ${index + 1}`);
+        button.addEventListener("click", () => openPhotoPreview(index));
         const image = document.createElement("img");
         image.className = "thumb";
         image.src = photo;
         image.alt = `Foto photobooth ${index + 1}`;
-        thumbs.appendChild(image);
-      });
+        button.appendChild(image);
+        return button;
+    }
+
+    function openPhotoPreview(index) {
+      previewIndex = index;
+      photoPreviewImage.src = photos[index];
+      photoPreviewModal.hidden = false;
+    }
+
+    function closePhotoPreview() {
+      photoPreviewModal.hidden = true;
+      photoPreviewImage.removeAttribute("src");
+      previewIndex = -1;
+    }
+
+    function retakePreviewPhoto() {
+      if (previewIndex < 0) return;
+      replacingIndex = previewIndex;
+      closePhotoPreview();
+      setStage("session");
+      captureButton.disabled = !stream;
+      statusText.textContent = stream
+        ? `Retake foto ${replacingIndex + 1}. Klik take photo untuk mengganti foto ini saja.`
+        : "Klik start camera dulu, lalu take photo untuk mengganti foto ini saja.";
     }
 
     function drawStrip() {
