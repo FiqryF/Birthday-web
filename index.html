@@ -277,6 +277,86 @@
       min-height: 20rem;
     }
 
+    .memory-keepsake {
+      position: relative;
+      isolation: isolate;
+      border-color: rgba(64, 43, 71, .16);
+      background:
+        linear-gradient(135deg, rgba(255, 248, 236, .92), rgba(255, 255, 255, .72)),
+        repeating-linear-gradient(0deg, rgba(64, 43, 71, .045) 0 1px, transparent 1px 12px);
+    }
+
+    .memory-keepsake::before {
+      content: "";
+      position: absolute;
+      inset: 1rem;
+      z-index: -1;
+      border: 1px solid rgba(64, 43, 71, .12);
+      pointer-events: none;
+    }
+
+    .memory-keepsake-media {
+      position: relative;
+      min-height: 100%;
+      padding: clamp(1rem, 2.5vw, 1.45rem);
+      background: var(--shadow);
+    }
+
+    .memory-keepsake-media::after {
+      content: "";
+      position: absolute;
+      inset: auto 1.45rem 1.45rem 1.45rem;
+      height: 36%;
+      background: linear-gradient(0deg, rgba(38, 36, 35, .58), transparent);
+      pointer-events: none;
+    }
+
+    .memory-keepsake .memory-keepsake-photo {
+      height: 100%;
+      min-height: 18rem;
+      border: 1px solid rgba(255, 248, 236, .26);
+      object-position: center;
+      filter: saturate(1.02) contrast(1.02);
+    }
+
+    .memory-keepsake-badge {
+      position: absolute;
+      left: clamp(1.7rem, 3vw, 2.25rem);
+      bottom: clamp(1.7rem, 3vw, 2.25rem);
+      z-index: 1;
+      max-width: 12rem;
+      color: var(--pale);
+      font-size: .64rem;
+      font-weight: 900;
+      letter-spacing: .18em;
+      line-height: 1.7;
+      text-transform: uppercase;
+    }
+
+    .memory-keepsake-note {
+      display: grid;
+      align-content: center;
+      padding: clamp(1.6rem, 4vw, 2.8rem);
+    }
+
+    .memory-keepsake-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .55rem;
+      margin-top: 1.55rem;
+    }
+
+    .memory-keepsake-tags span {
+      border: 1px solid rgba(64, 43, 71, .16);
+      background: rgba(255, 255, 255, .54);
+      padding: .58rem .72rem;
+      color: rgba(64, 43, 71, .78);
+      font-size: .58rem;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
     .memory-note {
       padding: 1.35rem;
     }
@@ -673,6 +753,51 @@
       .memory-caption {
         min-height: 460px;
       }
+
+      .memory-keepsake {
+        text-align: center;
+      }
+
+      .memory-keepsake::before {
+        inset: .75rem;
+      }
+
+      .memory-keepsake-media {
+        padding: .85rem .85rem 0;
+        background: transparent;
+      }
+
+      .memory-keepsake-media::after {
+        inset: auto .85rem 0 .85rem;
+        height: 42%;
+      }
+
+      .memory-keepsake .memory-keepsake-photo {
+        aspect-ratio: 1.06 / 1;
+        height: auto;
+        min-height: 0;
+      }
+
+      .memory-keepsake-badge {
+        left: 1.45rem;
+        right: 1.45rem;
+        bottom: 1rem;
+        margin: 0 auto;
+        max-width: none;
+        font-size: .56rem;
+      }
+
+      .memory-keepsake-note {
+        padding: 1.35rem 1.35rem 1.55rem;
+      }
+
+      .memory-keepsake-note h3 {
+        font-size: 2.45rem;
+      }
+
+      .memory-keepsake-tags {
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -789,14 +914,22 @@
         </div>
 
         <div class="mt-5 grid gap-5 md:grid-cols-[.95fr_1.05fr]">
-          <article class="memory-tile memory-tile-split grid overflow-hidden md:grid-cols-[.9fr_1fr]">
-            <img src="assets/memories/memory-keepsakes.png" alt="Blank photo cards, ribbons, flowers, and fairy lights arranged on violet velvet" />
-            <div class="memory-note grid content-center">
+          <article class="memory-tile memory-keepsake memory-tile-split grid overflow-hidden md:grid-cols-[.92fr_1.08fr]">
+            <div class="memory-keepsake-media">
+              <img class="memory-keepsake-photo" src="assets/memories/memory-keepsakes.png" alt="Blank photo cards, ribbons, flowers, and fairy lights arranged on violet velvet" />
+              <p class="memory-keepsake-badge">reserved for the real little moments</p>
+            </div>
+            <div class="memory-keepsake-note">
               <p class="section-label text-lilac">04 / keepsakes</p>
-              <h3 class="font-display mt-3 text-4xl leading-none text-violet">Space for the real photos</h3>
+              <h3 class="font-display mt-3 text-4xl leading-none text-violet">A soft place for the real photos</h3>
               <p class="mt-5 text-sm leading-7 text-violet/68">
-                Frame kosong ini sengaja terasa seperti arsip. Nanti bisa diganti foto kalian, chat lucu, atau momen kecil yang cuma kalian yang paham.
+                Ruang kecil ini bisa jadi arsip foto kalian nanti: potongan chat, pose lucu, atau momen sederhana yang cuma kalian yang paham.
               </p>
+              <div class="memory-keepsake-tags" aria-label="Keepsake details">
+                <span>photo</span>
+                <span>chat</span>
+                <span>moment</span>
+              </div>
             </div>
           </article>
 
