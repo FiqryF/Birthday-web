@@ -101,30 +101,29 @@
       box-shadow: 0 0 34px rgba(255, 116, 199, .52);
     }
 
-    .hero {
+    .photobooth-flow {
       display: grid;
-      grid-template-columns: minmax(0, .92fr) minmax(320px, 1.08fr);
-      gap: 24px;
-      align-items: stretch;
+      gap: 18px;
     }
 
-    .intro-panel,
-    .studio-panel {
+    .flow-head,
+    .stage-panel {
       border: 1px solid rgba(255, 248, 236, .14);
       box-shadow: 0 28px 80px rgba(16, 10, 18, .32);
     }
 
-    .intro-panel {
-      display: grid;
-      align-content: space-between;
-      min-height: 610px;
-      padding: clamp(1.35rem, 4vw, 3rem);
+    .flow-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: clamp(1.25rem, 3vw, 2rem);
       background: rgba(64, 43, 71, .78);
       overflow: hidden;
       position: relative;
     }
 
-    .intro-panel::after {
+    .flow-head::after {
       content: "";
       position: absolute;
       inset: auto -14% -18% 22%;
@@ -144,62 +143,97 @@
 
     h1 {
       margin: 0;
-      max-width: 12ch;
-      font-size: clamp(4.3rem, 10vw, 8.2rem);
-      line-height: .82;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      line-height: .86;
     }
 
     .intro-copy {
       position: relative;
       z-index: 1;
-      max-width: 34rem;
+      max-width: 26rem;
       color: rgba(201, 224, 235, .92);
       font-size: .98rem;
       font-weight: 700;
       line-height: 1.8;
     }
 
-    .step-row {
+    .phase-pills {
       position: relative;
       z-index: 1;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: .7rem;
-      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
     }
 
-    .step {
-      min-height: 86px;
-      padding: .9rem;
-      border: 1px solid rgba(201, 224, 235, .18);
-      background: rgba(255, 248, 236, .06);
-    }
-
-    .step strong {
-      display: block;
-      margin-bottom: .38rem;
-      color: var(--pale);
-      font-size: .65rem;
-      letter-spacing: .18em;
+    .phase-pill {
+      border: 1px solid rgba(201, 224, 235, .22);
+      background: rgba(255, 248, 236, .08);
+      color: rgba(255, 248, 236, .62);
+      padding: .75rem .9rem;
+      font-size: .66rem;
+      font-weight: 900;
+      letter-spacing: .16em;
       text-transform: uppercase;
     }
 
-    .step span {
-      color: rgba(255, 248, 236, .72);
-      font-size: .78rem;
-      font-weight: 700;
-      line-height: 1.5;
+    .phase-pill.is-active {
+      background: var(--chrome);
+      color: var(--violet);
+      border-color: transparent;
+      box-shadow: 0 12px 30px rgba(255, 116, 199, .28);
     }
 
-    .studio-panel {
+    .stage-panel {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 280px;
       gap: 18px;
       padding: clamp(1rem, 2.4vw, 1.5rem);
       background:
         repeating-linear-gradient(0deg, rgba(64, 43, 71, .035) 0 1px, transparent 1px 10px),
         linear-gradient(135deg, #fff8ec, #eadbc3);
       color: var(--violet);
+    }
+
+    .stage-panel[hidden] {
+      display: none;
+    }
+
+    .stage-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 1rem;
+      border-bottom: 1px solid rgba(64, 43, 71, .13);
+      padding-bottom: 1rem;
+    }
+
+    .stage-title h2 {
+      margin: 0;
+      font-size: clamp(2.2rem, 7vw, 4rem);
+      line-height: .9;
+      color: var(--violet);
+    }
+
+    .stage-title p {
+      max-width: 28rem;
+      margin: 0;
+      color: rgba(64, 43, 71, .72);
+      font-size: .86rem;
+      font-weight: 800;
+      line-height: 1.6;
+    }
+
+    .session-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 210px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .template-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, 290px) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
     }
 
     .camera-stack {
@@ -365,6 +399,10 @@
       gap: .55rem;
     }
 
+    .session-layout .thumbs {
+      grid-template-columns: 1fr;
+    }
+
     .thumb {
       aspect-ratio: 4 / 3;
       border: 1px solid rgba(64, 43, 71, .16);
@@ -388,17 +426,24 @@
     }
 
     @media (max-width: 980px) {
-      .hero,
-      .studio-panel {
+      .flow-head,
+      .session-layout,
+      .template-layout {
         grid-template-columns: 1fr;
+        display: grid;
       }
 
-      .intro-panel {
-        min-height: auto;
+      .flow-head,
+      .stage-title {
+        align-items: start;
       }
 
-      .step-row {
-        grid-template-columns: 1fr;
+      .strip-area {
+        order: -1;
+      }
+
+      .session-layout .thumbs {
+        grid-template-columns: repeat(3, 1fr);
       }
 
       .strip-shell {
@@ -416,8 +461,21 @@
         margin-bottom: 16px;
       }
 
-      .studio-panel {
+      .flow-head,
+      .stage-panel {
         padding: .85rem;
+      }
+
+      .flow-head {
+        gap: 1rem;
+      }
+
+      .stage-title {
+        display: grid;
+      }
+
+      .camera-view {
+        aspect-ratio: 3 / 4;
       }
 
       .controls,
@@ -430,6 +488,10 @@
       .btn,
       .chip {
         padding-inline: .7rem;
+      }
+
+      canvas {
+        width: min(58vw, 210px);
       }
     }
   </style>
@@ -451,75 +513,88 @@
       </span>
     </nav>
 
-    <section class="hero" aria-label="Birthday photobooth">
-      <div class="intro-panel">
+    <section class="photobooth-flow" aria-label="Birthday photobooth">
+      <div class="flow-head">
         <div>
           <p class="section-label">birthday photobooth</p>
           <h1 class="font-display">Take three frames.</h1>
         </div>
-        <div>
-          <p class="intro-copy">
-            Pilih filter kamera, ambil 3 foto dengan countdown, lalu pilih frame strip yang paling cocok sebelum download.
-          </p>
-          <div class="step-row">
-            <div class="step">
-              <strong>01 camera</strong>
-              <span>Aktifkan kamera dan pilih filter.</span>
-            </div>
-            <div class="step">
-              <strong>02 session</strong>
-              <span>Ambil 3 foto berurutan.</span>
-            </div>
-            <div class="step">
-              <strong>03 frame</strong>
-              <span>Pilih frame lalu download strip.</span>
-            </div>
-          </div>
+        <div class="phase-pills" aria-label="Tahap photobooth">
+          <span id="sessionPill" class="phase-pill is-active">01 sesi foto</span>
+          <span id="templatePill" class="phase-pill">02 template</span>
         </div>
       </div>
 
-      <div class="studio-panel">
-        <section class="camera-stack" aria-label="Kamera photobooth">
-          <div id="cameraView" class="camera-view">
-            <video id="video" autoplay playsinline muted></video>
-            <div class="camera-placeholder">Camera preview</div>
-            <div id="countdown" class="countdown" aria-live="polite"></div>
-            <div id="flash" class="flash"></div>
+      <section id="sessionStage" class="stage-panel" aria-label="Sesi foto">
+        <div class="stage-title">
+          <div>
+            <p class="section-label">step one</p>
+            <h2 class="font-display">Sesi foto</h2>
           </div>
+          <p>Aktifkan kamera, pilih filter, lalu ambil 3 foto. Setelah lengkap, halaman otomatis lanjut ke pilihan template.</p>
+        </div>
 
-          <p id="status" class="status">Klik start camera. Browser akan meminta izin kamera.</p>
+        <div class="session-layout">
+          <section class="camera-stack" aria-label="Kamera photobooth">
+            <div id="cameraView" class="camera-view">
+              <video id="video" autoplay playsinline muted></video>
+              <div class="camera-placeholder">Camera preview</div>
+              <div id="countdown" class="countdown" aria-live="polite"></div>
+              <div id="flash" class="flash"></div>
+            </div>
 
-          <div class="controls">
-            <button id="startCamera" class="btn btn-pale" type="button">start camera</button>
-            <button id="capture" class="btn btn-primary" type="button" disabled>take photo</button>
-            <button id="retake" class="btn" type="button">retake</button>
-          </div>
+            <p id="status" class="status">Klik start camera. Browser akan meminta izin kamera.</p>
 
-          <div class="filter-grid" aria-label="Pilih filter kamera">
-            <button class="chip is-active" type="button" data-filter="clean">clean</button>
-            <button class="chip" type="button" data-filter="soft">soft glow</button>
-            <button class="chip" type="button" data-filter="nocturne">nocturne</button>
-            <button class="chip" type="button" data-filter="chrome">chrome pop</button>
-          </div>
+            <div class="controls">
+              <button id="startCamera" class="btn btn-pale" type="button">start camera</button>
+              <button id="capture" class="btn btn-primary" type="button" disabled>take photo</button>
+              <button id="retake" class="btn" type="button">retake</button>
+            </div>
+
+            <div class="filter-grid" aria-label="Pilih filter kamera">
+              <button class="chip is-active" type="button" data-filter="clean">clean</button>
+              <button class="chip" type="button" data-filter="soft">soft glow</button>
+              <button class="chip" type="button" data-filter="nocturne">nocturne</button>
+              <button class="chip" type="button" data-filter="chrome">chrome pop</button>
+            </div>
+          </section>
 
           <div id="thumbs" class="thumbs" aria-label="Preview foto yang sudah diambil"></div>
-        </section>
+        </div>
+      </section>
 
-        <section class="strip-area" aria-label="Hasil photobooth">
-          <div class="strip-shell">
-            <canvas id="strip" width="600" height="1800"></canvas>
+      <section id="templateStage" class="stage-panel" aria-label="Pilih template dan download" hidden>
+        <div class="stage-title">
+          <div>
+            <p class="section-label">step two</p>
+            <h2 class="font-display">Pilih template</h2>
           </div>
+          <p>Pilih frame photostrip yang paling cocok. Ukuran download tetap 600 x 1800 px, setara rasio 5 x 15.</p>
+        </div>
 
-          <div class="frame-grid" aria-label="Pilih frame foto">
-            <button class="chip is-active" type="button" data-frame="midnight">midnight</button>
-            <button class="chip" type="button" data-frame="ribbon">ribbon</button>
-            <button class="chip" type="button" data-frame="paper">paper</button>
-            <button class="chip" type="button" data-frame="chrome">chrome</button>
-          </div>
+        <div class="template-layout">
+          <section class="strip-area" aria-label="Hasil photobooth">
+            <div class="strip-shell">
+              <canvas id="strip" width="600" height="1800"></canvas>
+            </div>
+          </section>
 
-          <button id="download" class="btn btn-lilac" type="button" disabled>download strip</button>
-        </section>
-      </div>
+          <section class="camera-stack" aria-label="Kontrol template">
+            <p id="templateStatus" class="status">Tiga foto sudah siap. Pilih frame lalu download.</p>
+            <div class="frame-grid" aria-label="Pilih frame foto">
+              <button class="chip is-active" type="button" data-frame="midnight">midnight</button>
+              <button class="chip" type="button" data-frame="ribbon">ribbon</button>
+              <button class="chip" type="button" data-frame="paper">paper</button>
+              <button class="chip" type="button" data-frame="chrome">chrome</button>
+            </div>
+
+            <div class="controls">
+              <button id="backToSession" class="btn" type="button">foto ulang</button>
+              <button id="download" class="btn btn-lilac" type="button" disabled>download strip</button>
+            </div>
+          </section>
+        </div>
+      </section>
     </section>
   </main>
 
@@ -527,12 +602,18 @@
 
   <script>
     const video = document.querySelector("#video");
+    const sessionStage = document.querySelector("#sessionStage");
+    const templateStage = document.querySelector("#templateStage");
+    const sessionPill = document.querySelector("#sessionPill");
+    const templatePill = document.querySelector("#templatePill");
     const cameraView = document.querySelector("#cameraView");
     const startCamera = document.querySelector("#startCamera");
     const captureButton = document.querySelector("#capture");
     const retakeButton = document.querySelector("#retake");
+    const backToSession = document.querySelector("#backToSession");
     const downloadButton = document.querySelector("#download");
     const statusText = document.querySelector("#status");
+    const templateStatus = document.querySelector("#templateStatus");
     const countdown = document.querySelector("#countdown");
     const flash = document.querySelector("#flash");
     const strip = document.querySelector("#strip");
@@ -558,14 +639,8 @@
 
     startCamera.addEventListener("click", openCamera);
     captureButton.addEventListener("click", captureWithCountdown);
-    retakeButton.addEventListener("click", () => {
-      photos = [];
-      renderThumbs();
-      drawStrip();
-      downloadButton.disabled = true;
-      captureButton.disabled = !stream;
-      statusText.textContent = stream ? "Sesi diulang. Ambil 3 foto baru." : "Klik start camera untuk mulai lagi.";
-    });
+    retakeButton.addEventListener("click", resetSession);
+    backToSession.addEventListener("click", resetSession);
     downloadButton.addEventListener("click", downloadStrip);
 
     filterButtons.forEach((button) => {
@@ -654,12 +729,35 @@
       if (photos.length >= 3) {
         downloadButton.disabled = false;
         statusText.textContent = "Tiga foto sudah lengkap. Pilih frame yang cocok lalu download.";
+        templateStatus.textContent = "Tiga foto sudah siap. Pilih frame lalu download.";
+        captureButton.disabled = true;
+        setStage("template");
       } else {
         statusText.textContent = `${photos.length} dari 3 foto tersimpan. Lanjut ambil foto berikutnya.`;
         captureButton.disabled = false;
       }
 
       isCapturing = false;
+    }
+
+    function resetSession() {
+      photos = [];
+      renderThumbs();
+      drawStrip();
+      downloadButton.disabled = true;
+      captureButton.disabled = !stream;
+      setStage("session");
+      statusText.textContent = stream ? "Sesi diulang. Ambil 3 foto baru." : "Klik start camera untuk mulai lagi.";
+      templateStatus.textContent = "Tiga foto sudah siap. Pilih frame lalu download.";
+    }
+
+    function setStage(stage) {
+      const showTemplate = stage === "template";
+      sessionStage.hidden = showTemplate;
+      templateStage.hidden = !showTemplate;
+      sessionPill.classList.toggle("is-active", !showTemplate);
+      templatePill.classList.toggle("is-active", showTemplate);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function takePhoto() {
