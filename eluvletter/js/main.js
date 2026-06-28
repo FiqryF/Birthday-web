@@ -7,15 +7,21 @@ let content = {
 };
 const envelopeOffsetY = 72;
 
+function getEnvelopeScale() {
+    if (window.innerWidth <= 420) return 0.48;
+    if (window.innerWidth <= 720) return 0.58;
+    return 1;
+}
+
 function getEnvelopeOffsetY() {
-    if (window.innerWidth <= 420) return 205;
-    if (window.innerWidth <= 720) return 165;
+    if (window.innerWidth <= 720) return 0;
     return envelopeOffsetY;
 }
 
 function positionEnvelope() {
     let contact = $('#contact');
-    let mtop = Math.max(40, (window.innerHeight - contact.height()) * 0.5 + getEnvelopeOffsetY());
+    let visualHeight = contact.height() * getEnvelopeScale();
+    let mtop = Math.max(24, (window.innerHeight - visualHeight) * 0.5 + getEnvelopeOffsetY());
     contact.css('margin-top', mtop + 'px');
 }
 
@@ -59,9 +65,7 @@ window.onload = function () {
     $('#music').attr('src', result.bgm);
     $('#envelope').fadeIn('slow');
     $('.heart').fadeOut('fast');
-    let currentUrl = window.location.href;
-    let firstIndex = currentUrl.indexOf("#");
-    if (firstIndex <= 0) window.location.href = currentUrl + "#contact";
+    $('#contact').addClass('is-ready');
     positionEnvelope();
     $('body').css('opacity', '1');
     $('#jsi-cherry-container').css('z-index', '-99');
