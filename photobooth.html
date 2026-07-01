@@ -743,35 +743,43 @@
         <div>
           <p class="section-label">birthday photobooth</p>
           <h1 class="font-display">Pick your strip.</h1>
-          <p class="intro-copy">Pilih dulu mau strip 3 foto atau 4 foto, lalu ambil sesi foto dan pakai template yang kamu punya.</p>
+          <p class="intro-copy">Pilih template frame photostrip, lalu ambil sesi foto.</p>
         </div>
         <div class="phase-pills" aria-label="Tahap photobooth">
-          <span id="setupPill" class="phase-pill is-active">01 pilih jumlah</span>
+          <span id="setupPill" class="phase-pill is-active">01 pilih template</span>
           <span id="sessionPill" class="phase-pill">02 sesi foto</span>
           <span id="templatePill" class="phase-pill">03 template</span>
         </div>
       </div>
 
-      <section id="setupStage" class="stage-panel" aria-label="Pilih jumlah foto">
+      <section id="setupStage" class="stage-panel" aria-label="Pilih template">
         <div class="stage-title">
           <div>
             <p class="section-label">step one</p>
-            <h2 class="font-display">Mau berapa foto?</h2>
+            <h2 class="font-display">Pilih template kamu</h2>
           </div>
-          <p>Pilih format strip dulu. Template 3 foto dan 4 foto akan dipisah supaya hasil downloadnya pas.</p>
+          <p>Pilih template photostrip yang ingin digunakan. Jumlah foto akan otomatis menyesuaikan dengan template pilihanmu.</p>
         </div>
 
         <div class="setup-layout">
           <div class="setup-card">
-            <p>Untuk template kamu, ada pilihan strip 3 foto dan 4 foto. Setelah memilih, sesi kamera akan mengikuti jumlah foto yang dipilih.</p>
-            <div class="photo-count-grid" aria-label="Pilih jumlah foto">
-              <button class="count-option is-active" type="button" data-photo-count="3">
-                <strong>3 foto</strong>
-                <span>template vampire</span>
+            <p>Pilih salah satu template dari daftar di bawah. Setelah memilih, sesi kamera akan dimulai sesuai jumlah slot foto pada template.</p>
+            <div class="photo-count-grid" aria-label="Pilih template">
+              <button class="count-option is-active" type="button" data-setup-frame="red">
+                <strong>Red</strong>
+                <span>3 foto</span>
               </button>
-              <button class="count-option" type="button" data-photo-count="4">
-                <strong>4 foto</strong>
-                <span>template market / stars</span>
+              <button class="count-option" type="button" data-setup-frame="market">
+                <strong>Market</strong>
+                <span>4 foto</span>
+              </button>
+              <button class="count-option" type="button" data-setup-frame="purple">
+                <strong>Purple</strong>
+                <span>3 foto</span>
+              </button>
+              <button class="count-option" type="button" data-setup-frame="enhypen">
+                <strong>Enhypen</strong>
+                <span>3 foto</span>
               </button>
             </div>
             <div class="controls">
@@ -839,15 +847,15 @@
             <p id="templateStatus" class="status">Foto sudah siap. Pilih template lalu download.</p>
             <div id="templateThumbs" class="thumbs" aria-label="Preview foto di photostrip"></div>
             <div class="frame-grid" aria-label="Pilih frame foto">
-              <button class="chip is-active" type="button" data-frame="template-1" data-photo-counts="4">stripe</button>
-              <button class="chip" type="button" data-frame="template-2" data-photo-counts="3">vampire</button>
-              <button class="chip" type="button" data-frame="template-3" data-photo-counts="4">chrome 19</button>
-              <button class="chip" type="button" data-frame="template-4" data-photo-counts="4">market</button>
-              <button class="chip" type="button" data-frame="template-5" data-photo-counts="4">stars</button>
+              <button class="chip is-active" type="button" data-frame="red" data-photo-count="3">red</button>
+              <button class="chip" type="button" data-frame="market" data-photo-count="4">market</button>
+              <button class="chip" type="button" data-frame="purple" data-photo-count="3">purple</button>
+              <button class="chip" type="button" data-frame="enhypen" data-photo-count="3">enhypen</button>
             </div>
 
             <div class="controls">
-              <button id="backToSetup" class="btn" type="button">ganti jumlah</button>
+              <button id="backToSetup" class="btn" type="button">ganti template</button>
+              <button id="resumeSession" class="btn btn-primary" type="button" style="display: none;">ambil sisa foto</button>
               <button id="backToSession" class="btn" type="button">foto ulang</button>
               <button id="download" class="btn btn-lilac" type="button" disabled>download strip</button>
             </div>
@@ -902,7 +910,8 @@
     const captureContext = captureCanvas.getContext("2d");
     const thumbs = document.querySelector("#thumbs");
     const templateThumbs = document.querySelector("#templateThumbs");
-    const countButtons = document.querySelectorAll("[data-photo-count]");
+    const setupFrameButtons = document.querySelectorAll("[data-setup-frame]");
+    const resumeSessionButton = document.querySelector("#resumeSession");
     const filterButtons = document.querySelectorAll("[data-filter]");
     const frameButtons = document.querySelectorAll("[data-frame]");
     const filters = {
@@ -912,72 +921,49 @@
       chrome: "contrast(1.08) saturate(1.35) brightness(1.04) hue-rotate(318deg)"
     };
     const templateFrames = {
-      "template-1": {
-        src: "assets/photobooth/templates/template-1.png",
-        count: 4,
-        key: [38, 173, 20],
-        tolerance: 46,
-        slots: [
-          { x: 59, y: 116, w: 472, h: 274 },
-          { x: 59, y: 532, w: 472, h: 275 },
-          { x: 59, y: 949, w: 472, h: 274 },
-          { x: 59, y: 1363, w: 472, h: 275 }
-        ]
-      },
-      "template-2": {
-        src: "assets/photobooth/templates/template-2.png",
+      "red": {
+        src: "assets/photobooth/templates/red.png",
         count: 3,
-        key: [83, 211, 215],
-        tolerance: 58,
         slots: [
-          { x: 59, y: 130, w: 472, h: 409 },
-          { x: 59, y: 625, w: 472, h: 405 },
-          { x: 59, y: 1112, w: 472, h: 407 }
+          { x: 59, y: 208, w: 472, h: 417 },
+          { x: 59, y: 641, w: 472, h: 417 },
+          { x: 59, y: 1074, w: 472, h: 402 }
         ]
       },
-      "template-3": {
-        src: "assets/photobooth/templates/template-3.png",
+      "market": {
+        src: "assets/photobooth/templates/market.png",
         count: 4,
-        key: [217, 0, 0],
-        tolerance: 54,
         slots: [
-          { x: 59, y: 92, w: 472, h: 312 },
-          { x: 59, y: 452, w: 472, h: 340 },
-          { x: 59, y: 840, w: 472, h: 340 },
-          { x: 59, y: 1244, w: 472, h: 340 }
+          { x: 59, y: 186, w: 472, h: 349 },
+          { x: 59, y: 551, w: 472, h: 371 },
+          { x: 59, y: 938, w: 472, h: 371 },
+          { x: 59, y: 1325, w: 472, h: 293 }
         ]
       },
-      "template-4": {
-        src: "assets/photobooth/templates/template-4.png",
-        count: 4,
-        key: [217, 0, 0],
-        tolerance: 54,
+      "purple": {
+        src: "assets/photobooth/templates/purple.png",
+        count: 3,
         slots: [
-          { x: 59, y: 202, w: 472, h: 337 },
-          { x: 59, y: 551, w: 472, h: 337 },
-          { x: 59, y: 903, w: 472, h: 337 },
-          { x: 59, y: 1253, w: 472, h: 337 }
+          { x: 59, y: 186, w: 472, h: 390 },
+          { x: 59, y: 591, w: 472, h: 595 },
+          { x: 59, y: 1202, w: 472, h: 455 }
         ]
       },
-      "template-5": {
-        src: "assets/photobooth/templates/template-5.png",
-        count: 4,
-        key: [38, 173, 20],
-        tolerance: 46,
+      "enhypen": {
+        src: "assets/photobooth/templates/enhypen.png",
+        count: 3,
         slots: [
-          { x: 59, y: 202, w: 472, h: 337 },
-          { x: 59, y: 551, w: 472, h: 337 },
-          { x: 59, y: 903, w: 472, h: 337 },
-          { x: 59, y: 1253, w: 472, h: 337 }
+          { x: 59, y: 208, w: 472, h: 417 },
+          { x: 59, y: 641, w: 472, h: 417 },
+          { x: 59, y: 1074, w: 472, h: 401 }
         ]
       }
     };
     const templateImageCache = new Map();
-    const templateOverlayCache = new Map();
     let stream = null;
     let currentFilter = "clean";
     let selectedPhotoCount = 3;
-    let currentFrame = "template-2";
+    let currentFrame = "red";
     let photos = [];
     let isCapturing = false;
     let previewIndex = -1;
@@ -992,6 +978,7 @@
     captureButton.addEventListener("click", captureWithCountdown);
     retakeButton.addEventListener("click", resetSession);
     backToSetup.addEventListener("click", backToSetupStage);
+    resumeSessionButton.addEventListener("click", resumeSession);
     backToSession.addEventListener("click", resetSession);
     downloadButton.addEventListener("click", downloadStrip);
     closePreview.addEventListener("click", closePhotoPreview);
@@ -1000,18 +987,22 @@
       if (event.target === photoPreviewModal) closePhotoPreview();
     });
 
-    countButtons.forEach((button) => {
+    setupFrameButtons.forEach((button) => {
       button.addEventListener("click", () => {
-        const nextCount = Number(button.dataset.photoCount);
-        if (!Number.isFinite(nextCount) || nextCount === selectedPhotoCount) return;
-        selectedPhotoCount = nextCount;
+        currentFrame = button.dataset.setupFrame;
+        const frameConfig = templateFrames[currentFrame];
+        selectedPhotoCount = frameConfig.count;
+        
+        updatePhotoCountUI();
+        updateFrameButtons();
+        
         photos = [];
         replacingIndex = -1;
         previewIndex = -1;
-        updatePhotoCountUI();
-        updateFrameButtons();
+        
         renderThumbs();
         drawStrip();
+        
         downloadButton.disabled = true;
         statusText.textContent = stream ? `Siap untuk sesi ${selectedPhotoCount} foto.` : "Klik start camera. Browser akan meminta izin kamera.";
       });
@@ -1028,8 +1019,24 @@
     frameButtons.forEach((button) => {
       button.addEventListener("click", () => {
         currentFrame = button.dataset.frame;
-        frameButtons.forEach((item) => item.classList.toggle("is-active", item === button));
+        const frameConfig = templateFrames[currentFrame];
+        selectedPhotoCount = frameConfig.count;
+
+        updateFrameButtons();
+        updatePhotoCountUI();
+
+        renderThumbs();
         drawStrip();
+
+        if (photos.length >= selectedPhotoCount) {
+          downloadButton.disabled = false;
+          resumeSessionButton.style.display = "none";
+          templateStatus.textContent = `${selectedPhotoCount} foto sudah siap. Pilih template lalu download.`;
+        } else {
+          downloadButton.disabled = true;
+          resumeSessionButton.style.display = "inline-flex";
+          templateStatus.textContent = `${photos.length} dari ${selectedPhotoCount} foto diambil. Butuh ${selectedPhotoCount - photos.length} foto lagi.`;
+        }
       });
     });
 
@@ -1127,6 +1134,7 @@
       renderThumbs();
       drawStrip();
       downloadButton.disabled = true;
+      resumeSessionButton.style.display = "none";
       captureButton.disabled = !stream;
       setStage("session");
       statusText.textContent = stream ? `Sesi diulang. Ambil ${selectedPhotoCount} foto baru.` : "Klik start camera untuk mulai lagi.";
@@ -1141,8 +1149,18 @@
       renderThumbs();
       drawStrip();
       downloadButton.disabled = true;
+      resumeSessionButton.style.display = "none";
       captureButton.disabled = !stream;
       setStage("setup");
+    }
+
+    function resumeSession() {
+      closePhotoPreview();
+      setStage("session");
+      captureButton.disabled = !stream;
+      statusText.textContent = stream
+        ? `Melanjutkan sesi foto. Silakan ambil foto ke-${photos.length + 1} dari ${selectedPhotoCount}.`
+        : "Aktifkan kamera untuk mengambil sisa foto.";
     }
 
     function setStage(stage) {
@@ -1158,8 +1176,8 @@
     }
 
     function updatePhotoCountUI() {
-      countButtons.forEach((button) => {
-        button.classList.toggle("is-active", Number(button.dataset.photoCount) === selectedPhotoCount);
+      setupFrameButtons.forEach((button) => {
+        button.classList.toggle("is-active", button.dataset.setupFrame === currentFrame);
       });
       thumbs.dataset.count = String(selectedPhotoCount);
       templateThumbs.dataset.count = String(selectedPhotoCount);
@@ -1168,23 +1186,8 @@
     }
 
     function updateFrameButtons() {
-      let firstAvailable = null;
-      let currentAvailable = false;
-
       frameButtons.forEach((button) => {
-        const counts = button.dataset.photoCounts.split(",").map(Number);
-        const isAvailable = counts.includes(selectedPhotoCount);
-        button.hidden = !isAvailable;
-        if (isAvailable && !firstAvailable) firstAvailable = button;
-        if (isAvailable && button.dataset.frame === currentFrame) currentAvailable = true;
-      });
-
-      if (!currentAvailable && firstAvailable) {
-        currentFrame = firstAvailable.dataset.frame;
-      }
-
-      frameButtons.forEach((button) => {
-        button.classList.toggle("is-active", button.dataset.frame === currentFrame && !button.hidden);
+        button.classList.toggle("is-active", button.dataset.frame === currentFrame);
       });
     }
 
@@ -1265,92 +1268,35 @@
     async function drawStrip() {
       const width = strip.width;
       const height = strip.height;
-      const layout = templateFrames[currentFrame] || templateFrames["template-2"];
+      const layout = templateFrames[currentFrame] || templateFrames["red"];
       const templateImage = await loadTemplateImage(layout.src);
-      const templateOverlay = await getTemplateOverlay(layout);
+      
       stripContext.clearRect(0, 0, width, height);
       stripContext.fillStyle = "#fff8ec";
       stripContext.fillRect(0, 0, width, height);
-      stripContext.drawImage(templateImage, 0, 0, width, height);
 
-      for (let index = 0; index < selectedPhotoCount; index += 1) {
+      // Draw photos and placeholders first
+      for (let index = 0; index < layout.count; index += 1) {
         const slot = layout.slots[index];
         if (!slot) continue;
-        stripContext.fillStyle = "rgba(64, 43, 71, .18)";
-        stripContext.fillRect(slot.x, slot.y, slot.w, slot.h);
 
         if (photos[index]) {
           const image = await loadTemplateImage(photos[index]);
           drawCoverImage(image, slot.x, slot.y, slot.w, slot.h);
         } else {
-          stripContext.fillStyle = "rgba(255, 248, 236, .72)";
-          stripContext.font = "900 26px Inter, sans-serif";
+          // Draw placeholders for empty photos
+          stripContext.fillStyle = "rgba(64, 43, 71, .12)";
+          stripContext.fillRect(slot.x, slot.y, slot.w, slot.h);
+          
+          stripContext.fillStyle = "rgba(64, 43, 71, .6)";
+          stripContext.font = "900 24px Inter, sans-serif";
           stripContext.textAlign = "center";
           stripContext.fillText(`PHOTO ${index + 1}`, slot.x + slot.w / 2, slot.y + slot.h / 2);
         }
       }
 
-      stripContext.drawImage(templateOverlay, 0, 0, width, height);
-    }
-
-    function drawCoverImage(image, x, y, width, height) {
-      const imageRatio = image.width / image.height;
-      const slotRatio = width / height;
-      let sx = 0;
-      let sy = 0;
-      let sw = image.width;
-      let sh = image.height;
-
-      if (imageRatio > slotRatio) {
-        sw = image.height * slotRatio;
-        sx = (image.width - sw) / 2;
-      } else {
-        sh = image.width / slotRatio;
-        sy = (image.height - sh) / 2;
-      }
-
-      stripContext.drawImage(image, sx, sy, sw, sh, x, y, width, height);
-    }
-
-    function loadTemplateImage(src) {
-      if (templateImageCache.has(src)) return templateImageCache.get(src);
-      const promise = new Promise((resolve, reject) => {
-        const image = new Image();
-        image.onload = () => resolve(image);
-        image.onerror = reject;
-        image.src = src;
-      });
-      templateImageCache.set(src, promise);
-      return promise;
-    }
-
-    async function getTemplateOverlay(layout) {
-      if (templateOverlayCache.has(layout.src)) return templateOverlayCache.get(layout.src);
-
-      const image = await loadTemplateImage(layout.src);
-      const overlay = document.createElement("canvas");
-      overlay.width = strip.width;
-      overlay.height = strip.height;
-      const context = overlay.getContext("2d");
-      context.drawImage(image, 0, 0, overlay.width, overlay.height);
-
-      const pixels = context.getImageData(0, 0, overlay.width, overlay.height);
-      const data = pixels.data;
-      const [kr, kg, kb] = layout.key;
-      const tolerance = layout.tolerance;
-
-      for (let index = 0; index < data.length; index += 4) {
-        const dr = Math.abs(data[index] - kr);
-        const dg = Math.abs(data[index + 1] - kg);
-        const db = Math.abs(data[index + 2] - kb);
-        if (dr + dg + db < tolerance) {
-          data[index + 3] = 0;
-        }
-      }
-
-      context.putImageData(pixels, 0, 0);
-      templateOverlayCache.set(layout.src, overlay);
-      return overlay;
+      // Draw the template on top
+      stripContext.drawImage(templateImage, 0, 0, width, height);
     }
 
     function downloadStrip() {

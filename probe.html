@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Template Prober</title>
+</head>
+<body>
+  <div id="results">Probing...</div>
+  <script>
+    const files = ['enhypen.png', 'market.png', 'purple.png', 'red.png'];
+    const results = [];
+
+    async function probe() {
+      for (const file of files) {
+        try {
+          const img = new Image();
+          img.src = 'assets/photobooth/templates/' + file;
+          await new Promise((resolve, reject) => {
+            img.onload = resolve;
+            img.onerror = reject;
+          });
+
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width;
+          canvas.height = img.height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const data = imgData.data;
+
+          // Let's find transparent regions (alpha < 128)
+          let transparentPixelCount = 0;
+          for (let i = 0; i < data.length; i += 4) {
+            if (data[i + 3] < 128) {
+              transparentPixelCount++;
+            }
+          }
+
+          console.log(`--- ${file} ---`);
+          console.log(`Dimensions: ${img.width}x${img.height}`);
+          console.log(`Transparent pixels: ${transparentPixelCount} / ${img.width * img.height}`);
+
+          // Let's scan row-by-row to see which rows have transparent pixels
+          const transparentRows = [];
+          for (let y = 0; y < canvas.height; y++) {
+            let rowTransparent = false;
+            // check a sample of columns in this row
+            for (let x = 0; x < canvas.width; x += 1) {
+              const idx = (y * canvas.width + x) * 4;
+              if (data[idx + 3] < 128) {
+                rowTransparent = true;
+                break;
+              }
+            }
+            if (rowTransparent) {
+              transparentRows.push(y);
+            }
+          }
+
+          // Group contiguous transparent rows
+          const slots = [];
+          if (transparentRows.length > 0) {
+            let start = transparentRows[0];
+            let prev = transparentRows[0];
+            for (let i = 1; i < transparentRows.length; i++) {
+              if (transparentRows[i] > prev + 10) {
+                slots.push({ start, end: prev });
+                start = transparentRows[i];
+              }
+              prev = transparentRows[i];
+            }
+            slots.push({ start, end: prev });
+          }
+
+          // For each slot, find the horizontal boundaries (left and right)
+          const detailedSlots = [];
+          slots.forEach((slot, sIdx) => {
+            const midY = Math.floor((slot.start + slot.end) / 2);
+            let minX = canvas.width;
+            let maxX = 0;
+            // Scan horizontally at midY
+            for (let x = 0; x < canvas.width; x++) {
+              const idx = (midY * canvas.width + x) * 4;
+              if (data[idx + 3] < 128) {
+                if (x < minX) minX = x;
+                if (x > maxX) maxX = x;
+              }
+            }
+            // Let's refine the height/width of each slot
+            // To do this, scan rows in the slot range to find minX and maxX for the entire slot
+            let overallMinX = canvas.width;
+            let overallMaxX = 0;
+            for (let y = slot.start; y <= slot.end; y++) {
+              for (let x = 0; x < canvas.width; x++) {
+                const idx = (y * canvas.width + x) * 4;
+                if (data[idx + 3] < 128) {
+                  if (x < overallMinX) overallMinX = x;
+                  if (x > overallMaxX) overallMaxX = x;
+                }
+              }
+            }
+
+            detailedSlots.push({
+              x: overallMinX,
+              y: slot.start,
+              w: overallMaxX - overallMinX,
+              h: slot.end - slot.start
+            });
+          });
+
+          console.log(`Detailed slots for ${file}:`, JSON.stringify(detailedSlots));
+          results.push({ file, width: img.width, height: img.height, slots: detailedSlots });
+
+        } catch (err) {
+          console.error(`Error loading ${file}:`, err);
+        }
+      }
+
+      document.getElementById('results').innerText = JSON.stringify(results, null, 2);
+      console.log('PROBE_COMPLETE', JSON.stringify(results));
+    }
+
+    probe();
+  </script>
+</body>
+</html>

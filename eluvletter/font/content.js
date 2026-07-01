@@ -1,9 +1,9 @@
 window.eluvContent = {
-  title: "Birthday Nocturne",
-  recipient: "Aurora",
-  sender: "24",
-  salutation: "Dear Aurora,",
-  body: "Happy birthday. Semoga hari ini terasa lembut, terang, dan sedikit ajaib. Semoga tahun ini membawa tawa yang lebih panjang, hati yang lebih ringan, dan mimpi yang makin dekat.",
-  signature: "Birthday Nocturne",
+  title: "Some Letter",
+  recipient: "Letter from Cc",
+  sender: "20",
+  salutation: "Dear Trisya,",
+  body: "You’re definitely the 'Main Character' today. Have a blast!",
+  signature: "Cc, XO",
   bgm: ""
 };
