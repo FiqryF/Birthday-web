@@ -509,7 +509,7 @@
     canvas {
       display: block;
       width: min(100%, 210px);
-      aspect-ratio: 591 / 1772;
+      aspect-ratio: 1181 / 3543;
       border-radius: 4px;
       background: #fff8ec;
       box-shadow: 0 20px 40px rgba(38, 36, 35, .3);
@@ -833,13 +833,13 @@
             <p class="section-label">step three</p>
             <h2 class="font-display">Pilih template</h2>
           </div>
-          <p id="templateInstruction">Pilih frame photostrip yang paling cocok. Ukuran download mengikuti template asli 591 x 1772 px, setara rasio 5 x 15.</p>
+          <p id="templateInstruction">Pilih frame photostrip yang paling cocok. Ukuran download mengikuti template asli 1181 x 3543 px, setara rasio 5 x 15.</p>
         </div>
 
         <div class="template-layout">
           <section class="strip-area" aria-label="Hasil photobooth">
             <div class="strip-shell">
-              <canvas id="strip" width="591" height="1772"></canvas>
+              <canvas id="strip" width="1181" height="3543"></canvas>
             </div>
           </section>
 
@@ -986,6 +986,7 @@
     const templateImageCache = new Map();
     const templateOverlayCache = new Map();
     const imageCacheBust = String(Date.now());
+    const baseStripSize = { width: 591, height: 1772 };
     let stream = null;
     let currentFilter = "clean";
     let selectedPhotoCount = 3;
@@ -1208,7 +1209,7 @@
       thumbs.dataset.count = String(selectedPhotoCount);
       templateThumbs.dataset.count = String(selectedPhotoCount);
       sessionInstruction.textContent = `Aktifkan kamera, pilih filter, lalu ambil ${selectedPhotoCount} foto. Setelah lengkap, halaman otomatis lanjut ke pilihan template.`;
-      templateInstruction.textContent = `Pilih template ${selectedPhotoCount} foto yang paling cocok. Ukuran download mengikuti template asli 591 x 1772 px, setara rasio 5 x 15.`;
+      templateInstruction.textContent = `Pilih template ${selectedPhotoCount} foto yang paling cocok. Ukuran download mengikuti template asli 1181 x 3543 px, setara rasio 5 x 15.`;
     }
 
     function updateFrameButtons() {
@@ -1295,33 +1296,56 @@
       const width = strip.width;
       const height = strip.height;
       const layout = templateFrames[currentFrame] || templateFrames["red"];
-      
+
       stripContext.clearRect(0, 0, width, height);
       stripContext.fillStyle = "#fff8ec";
       stripContext.fillRect(0, 0, width, height);
 
-      // Draw photos and placeholders first
-      for (let index = 0; index < layout.count; index += 1) {
-        const slot = layout.slots[index];
-        if (!slot) continue;
+      try {
+        for (let index = 0; index < layout.count; index += 1) {
+          const slot = scaleSlot(layout.slots[index]);
+          if (!slot) continue;
 
-        if (photos[index]) {
-          const image = await loadTemplateImage(photos[index]);
-          drawCoverImage(image, slot.x, slot.y, slot.w, slot.h);
-        } else {
-          // Draw placeholders for empty photos
-          stripContext.fillStyle = "rgba(64, 43, 71, .12)";
-          stripContext.fillRect(slot.x, slot.y, slot.w, slot.h);
-          
-          stripContext.fillStyle = "rgba(64, 43, 71, .6)";
-          stripContext.font = "900 24px Inter, sans-serif";
-          stripContext.textAlign = "center";
-          stripContext.fillText(`PHOTO ${index + 1}`, slot.x + slot.w / 2, slot.y + slot.h / 2);
+          if (photos[index]) {
+            const image = await loadTemplateImage(photos[index]);
+            drawCoverImage(image, slot.x, slot.y, slot.w, slot.h);
+          } else {
+            stripContext.fillStyle = "rgba(64, 43, 71, .12)";
+            stripContext.fillRect(slot.x, slot.y, slot.w, slot.h);
+
+            stripContext.fillStyle = "rgba(64, 43, 71, .6)";
+            stripContext.font = "900 48px Inter, sans-serif";
+            stripContext.textAlign = "center";
+            stripContext.fillText(`PHOTO ${index + 1}`, slot.x + slot.w / 2, slot.y + slot.h / 2);
+          }
         }
-      }
 
-      const templateOverlay = await getTemplateOverlay(layout);
-      stripContext.drawImage(templateOverlay, 0, 0, width, height);
+        const templateOverlay = await getTemplateOverlay(layout);
+        stripContext.drawImage(templateOverlay, 0, 0, width, height);
+      } catch (error) {
+        stripContext.fillStyle = "#402B47";
+        stripContext.fillRect(0, 0, width, height);
+        stripContext.fillStyle = "#fff8ec";
+        stripContext.font = "900 54px Inter, sans-serif";
+        stripContext.textAlign = "center";
+        stripContext.fillText("PHOTOSTRIP ERROR", width / 2, height / 2 - 48);
+        stripContext.font = "700 34px Inter, sans-serif";
+        stripContext.fillText(layout.src, width / 2, height / 2 + 12);
+        templateStatus.textContent = `Photostrip gagal dirender: ${layout.src}`;
+        console.error("Photostrip render failed", error);
+      }
+    }
+
+    function scaleSlot(slot) {
+      if (!slot) return null;
+      const scaleX = strip.width / baseStripSize.width;
+      const scaleY = strip.height / baseStripSize.height;
+      return {
+        x: Math.round(slot.x * scaleX),
+        y: Math.round(slot.y * scaleY),
+        w: Math.round(slot.w * scaleX),
+        h: Math.round(slot.h * scaleY)
+      };
     }
 
     function drawCoverImage(image, x, y, width, height) {
@@ -1373,7 +1397,9 @@
       const pixels = context.getImageData(0, 0, overlay.width, overlay.height);
       const data = pixels.data;
 
-      layout.slots.forEach((slot) => {
+      layout.slots.forEach((slotConfig) => {
+        const slot = scaleSlot(slotConfig);
+        if (!slot) return;
         for (let y = slot.y; y < slot.y + slot.h; y += 1) {
           for (let x = slot.x; x < slot.x + slot.w; x += 1) {
             const index = (y * overlay.width + x) * 4;
