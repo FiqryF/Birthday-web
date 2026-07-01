@@ -924,6 +924,12 @@
       "red": {
         src: "assets/photobooth/templates/red.png",
         count: 3,
+        maskColors: [
+          [217, 0, 0],
+          [218, 22, 22],
+          [190, 0, 0]
+        ],
+        maskTolerance: 120,
         slots: [
           { x: 59, y: 208, w: 472, h: 417 },
           { x: 59, y: 641, w: 472, h: 417 },
@@ -933,6 +939,12 @@
       "market": {
         src: "assets/photobooth/templates/market.png",
         count: 4,
+        maskColors: [
+          [217, 0, 0],
+          [218, 22, 22],
+          [190, 0, 0]
+        ],
+        maskTolerance: 120,
         slots: [
           { x: 59, y: 186, w: 472, h: 349 },
           { x: 59, y: 551, w: 472, h: 371 },
@@ -943,6 +955,12 @@
       "purple": {
         src: "assets/photobooth/templates/purple.png",
         count: 3,
+        maskColors: [
+          [38, 173, 20],
+          [54, 190, 32],
+          [25, 150, 15]
+        ],
+        maskTolerance: 120,
         slots: [
           { x: 59, y: 186, w: 472, h: 390 },
           { x: 59, y: 591, w: 472, h: 595 },
@@ -952,6 +970,12 @@
       "enhypen": {
         src: "assets/photobooth/templates/enhypen.png",
         count: 3,
+        maskColors: [
+          [38, 173, 20],
+          [54, 190, 32],
+          [25, 150, 15]
+        ],
+        maskTolerance: 120,
         slots: [
           { x: 59, y: 208, w: 472, h: 417 },
           { x: 59, y: 641, w: 472, h: 417 },
@@ -960,6 +984,8 @@
       }
     };
     const templateImageCache = new Map();
+    const templateOverlayCache = new Map();
+    const imageCacheBust = String(Date.now());
     let stream = null;
     let currentFilter = "clean";
     let selectedPhotoCount = 3;
@@ -1269,7 +1295,6 @@
       const width = strip.width;
       const height = strip.height;
       const layout = templateFrames[currentFrame] || templateFrames["red"];
-      const templateImage = await loadTemplateImage(layout.src);
       
       stripContext.clearRect(0, 0, width, height);
       stripContext.fillStyle = "#fff8ec";
@@ -1295,8 +1320,129 @@
         }
       }
 
-      // Draw the template on top
-      stripContext.drawImage(templateImage, 0, 0, width, height);
+      const templateOverlay = await getTemplateOverlay(layout);
+      stripContext.drawImage(templateOverlay, 0, 0, width, height);
+    }
+
+    function drawCoverImage(image, x, y, width, height) {
+      const imageRatio = image.width / image.height;
+      const slotRatio = width / height;
+      let sx = 0;
+      let sy = 0;
+      let sw = image.width;
+      let sh = image.height;
+
+      if (imageRatio > slotRatio) {
+        sw = image.height * slotRatio;
+        sx = (image.width - sw) / 2;
+      } else {
+        sh = image.width / slotRatio;
+        sy = (image.height - sh) / 2;
+      }
+
+      stripContext.drawImage(image, sx, sy, sw, sh, x, y, width, height);
+    }
+
+    function loadTemplateImage(src) {
+      if (templateImageCache.has(src)) return templateImageCache.get(src);
+      const promise = new Promise((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = withCacheBust(src);
+      });
+      templateImageCache.set(src, promise);
+      return promise;
+    }
+
+    function withCacheBust(src) {
+      if (src.startsWith("data:") || src.startsWith("blob:")) return src;
+      return `${src}${src.includes("?") ? "&" : "?"}v=${imageCacheBust}`;
+    }
+
+    async function getTemplateOverlay(layout) {
+      if (templateOverlayCache.has(layout.src)) return templateOverlayCache.get(layout.src);
+
+      const templateImage = await loadTemplateImage(layout.src);
+      const overlay = document.createElement("canvas");
+      overlay.width = strip.width;
+      overlay.height = strip.height;
+      const context = overlay.getContext("2d");
+      context.drawImage(templateImage, 0, 0, overlay.width, overlay.height);
+
+      const pixels = context.getImageData(0, 0, overlay.width, overlay.height);
+      const data = pixels.data;
+
+      layout.slots.forEach((slot) => {
+        for (let y = slot.y; y < slot.y + slot.h; y += 1) {
+          for (let x = slot.x; x < slot.x + slot.w; x += 1) {
+            const index = (y * overlay.width + x) * 4;
+            if (isMaskPixel(data, index, layout)) {
+              data[index + 3] = 0;
+            }
+          }
+        }
+      });
+
+      context.putImageData(pixels, 0, 0);
+      templateOverlayCache.set(layout.src, overlay);
+      return overlay;
+    }
+
+    function isMaskPixel(data, index, layout) {
+      if (data[index + 3] < 80) return false;
+
+      const colors = layout.maskColors || [];
+      const tolerance = layout.maskTolerance || 96;
+      return colors.some(([red, green, blue]) => {
+        const distance =
+          Math.abs(data[index] - red) +
+          Math.abs(data[index + 1] - green) +
+          Math.abs(data[index + 2] - blue);
+        return distance < tolerance;
+      });
+    }
+
+    function detectPlaceholderColor(data, width, height, slot) {
+      const buckets = new Map();
+      const insetX = Math.max(4, Math.floor(slot.w * .08));
+      const insetY = Math.max(4, Math.floor(slot.h * .08));
+      const startX = Math.max(0, slot.x + insetX);
+      const endX = Math.min(width, slot.x + slot.w - insetX);
+      const startY = Math.max(0, slot.y + insetY);
+      const endY = Math.min(height, slot.y + slot.h - insetY);
+
+      for (let y = startY; y < endY; y += 6) {
+        for (let x = startX; x < endX; x += 6) {
+          const index = (y * width + x) * 4;
+          if (data[index + 3] < 160) continue;
+
+          const r = data[index];
+          const g = data[index + 1];
+          const b = data[index + 2];
+          const max = Math.max(r, g, b);
+          const min = Math.min(r, g, b);
+          if (max - min < 45) continue;
+
+          const key = `${Math.round(r / 16) * 16},${Math.round(g / 16) * 16},${Math.round(b / 16) * 16}`;
+          const bucket = buckets.get(key) || { r: 0, g: 0, b: 0, count: 0 };
+          bucket.r += r;
+          bucket.g += g;
+          bucket.b += b;
+          bucket.count += 1;
+          buckets.set(key, bucket);
+        }
+      }
+
+      const dominant = [...buckets.values()].sort((a, b) => b.count - a.count)[0];
+      if (!dominant || dominant.count < 20) return null;
+
+      return {
+        r: dominant.r / dominant.count,
+        g: dominant.g / dominant.count,
+        b: dominant.b / dominant.count,
+        tolerance: 96
+      };
     }
 
     function downloadStrip() {
